@@ -1,0 +1,13 @@
+.canvas {
+  position: absolute;
+  background: linear-gradient(to right, #00000080 0%, #ffffff00 40%),
+    linear-gradient(to left, #00000080 0%, #ffffff00 40%),
+    repeating-radial-gradient(
+      240px 240px at -11.5vw 50vh,
+      #13414c 0%,
+      #156577 7%
+    );
+  height: 100vh;
+  width: 100vw;
+  filter: blur(3px);
+}

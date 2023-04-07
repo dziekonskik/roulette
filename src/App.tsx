@@ -1,12 +1,11 @@
-import './App.css';
+import { Game } from "./components/Game";
+import { GameStoreProvider } from "./store/gameStoreProvider";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-       <h1>Roulette</h1>
-      </header>
-    </div>
+    <GameStoreProvider>
+      <Game />
+    </GameStoreProvider>
   );
 }
 
