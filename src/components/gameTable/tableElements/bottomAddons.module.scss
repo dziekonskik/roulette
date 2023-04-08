@@ -1,0 +1,49 @@
+@mixin bottom-adddons-common {
+  display: flex;
+  place-content: center;
+  color: var(--color-grid-divider);
+
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.dozenBet {
+  @include bottom-adddons-common;
+  border-bottom: var(--standard-border);
+  padding: 10px 0;
+
+  span {
+    &:first-child {
+      margin-right: 5px;
+    }
+    &:last-child {
+      margin-left: 5px;
+    }
+  }
+}
+
+.bottomAddonTwo {
+  @include bottom-adddons-common;
+
+  span {
+    padding: 10px;
+    text-align: center;
+    width: 100%;
+
+    &:last-child {
+      border-left: var(--standard-border);
+    }
+
+    div {
+      width: 100%;
+      height: 100%;
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    }
+    div[data-color="red"] {
+      background-color: red;
+    }
+    div[data-color="black"] {
+      background-color: black;
+    }
+  }
+}
