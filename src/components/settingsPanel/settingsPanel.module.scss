@@ -1,0 +1,9 @@
+.settingsContainer {
+  display: grid;
+  grid-template-rows: 1fr 1fr 70px;
+}
+
+.tokensWrapper {
+  display: flex;
+  place-content: center space-around;
+}

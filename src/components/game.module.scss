@@ -12,11 +12,11 @@
   height: 100%;
   width: 100vw;
   display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr;
+  grid-template-columns: 3fr 1fr;
+  grid-template-rows: 1fr 1fr;
   grid-template-areas:
-    "wheel"
-    "table";
+    "wheel settings"
+    "table table";
 
   @media (min-width: 1450px) {
     grid-template-columns: 1fr 2fr;

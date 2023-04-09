@@ -1,7 +1,8 @@
 .tableContainer {
   grid-area: table;
   border: 1px dashed tomato;
-  transform: rotateX(20deg) translateY(-10px) translateZ(50px);
+  transform: rotateX(20deg) translateY(-10px) translateX(-100px)
+    translateZ(50px);
   @media (min-width: 1450px) {
     transform: rotateX(20deg) translateY(150px) translateZ(130px)
       translateX(-50px);

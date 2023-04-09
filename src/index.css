@@ -1,5 +1,6 @@
 :root {
   --color-grid-divider: #e5e5e5;
+  --color-white: #f5f2f2;
   --standard-border: 2px solid var(--color-grid-divider);
 }
 
