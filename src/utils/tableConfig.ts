@@ -1,4 +1,4 @@
-type TableCell = {
+export type TableCell = {
   id: number;
   value: number;
   color: "red" | "black";

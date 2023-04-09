@@ -1,18 +1,15 @@
-import { tableCells } from "../../../utils/tableConfig";
+import type { TableCell } from "../../../utils/tableConfig";
 import styles from "./numbersGrid.module.scss";
 
 interface GridCellProps {
-  index: number;
+  cellData: TableCell;
 }
 
-export const GridCell: React.FC<GridCellProps> = ({ index }) => {
-  const currenCell = tableCells[index];
-
+export const GridCell: React.FC<GridCellProps> = ({ cellData }) => {
+  const { color, value } = cellData;
   return (
     <div className={styles.cell}>
-      <span style={{ backgroundColor: currenCell.color }}>
-        {currenCell.value}
-      </span>
+      <span style={{ backgroundColor: color }}>{value}</span>
     </div>
   );
 };
