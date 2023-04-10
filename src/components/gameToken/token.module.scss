@@ -1,9 +1,16 @@
-.tokenWrapper {
+.token {
   width: 70px;
   height: 70px;
   border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+  transition: transform 250ms ease-out;
 
-  & > div {
+  &:hover {
+    transform: scale(1.07);
+  }
+
+  & > div:first-child {
     display: grid;
     place-content: center;
     width: 100%;
@@ -21,5 +28,25 @@
       font-weight: 700;
       color: var(--color-white);
     }
+  }
+}
+
+.orbit {
+  position: absolute;
+  top: 47%;
+  left: 47%;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  z-index: 2;
+  animation: orbit 4s linear infinite;
+}
+
+@keyframes orbit {
+  from {
+    transform: rotate(0deg) translateX(45px) rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg) translateX(45px) rotate(-360deg);
   }
 }

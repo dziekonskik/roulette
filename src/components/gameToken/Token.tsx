@@ -3,6 +3,8 @@ import type { TokenColor, TokenValue } from "./types";
 
 interface TokenProps {
   value: TokenValue;
+  selected: boolean;
+  onClick?: (x?: any) => void;
 }
 
 const colorMap: Record<TokenValue, TokenColor> = {
@@ -12,15 +14,22 @@ const colorMap: Record<TokenValue, TokenColor> = {
   100: "#F3C620",
 };
 
-export const Token: React.FC<TokenProps> = ({ value }) => {
+export const Token: React.FC<TokenProps> = ({ value, selected, onClick }) => {
   return (
     <div
-      className={styles.tokenWrapper}
+      className={styles.token}
       style={{ backgroundColor: colorMap[value] }}
+      onClick={() => onClick && onClick(value)}
     >
       <div>
         <span className={styles.decoration}>{value}</span>
       </div>
+      {selected && (
+        <div
+          className={styles.orbit}
+          style={{ backgroundColor: colorMap[value] }}
+        />
+      )}
     </div>
   );
 };
