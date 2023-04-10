@@ -1,6 +1,7 @@
 @mixin addon-common {
   border: var(--standard-border);
   backdrop-filter: blur(5px);
+  user-select: none;
 }
 
 .wrapper {
@@ -15,6 +16,11 @@
     border-right: none;
     border-top-left-radius: 30px;
     border-bottom-left-radius: 30px;
+    transition: background-color 250ms;
+
+    &:hover {
+      background-color: var(--color-highlight);
+    }
 
     span {
       font-size: 32px;

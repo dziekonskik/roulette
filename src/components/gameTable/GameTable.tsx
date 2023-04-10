@@ -1,9 +1,21 @@
+import { useGameTable } from "../../store/tableStore/tableStoreProvider";
+import { highlightBy } from "../../utils/highlightFunctions";
+import type { Predicate } from "../../utils/types";
 import styles from "./gameTable.module.scss";
 import { DozenBet } from "./tableElements/DozenBet";
 import { OtherBottomBets } from "./tableElements/OtherBottomBets";
 import { TableSection } from "./tableElements/TableSection";
 
 export const GameTable: React.FC = () => {
+  const { highlightCells, unhighlightCells } = useGameTable();
+
+  const even: Predicate = ({ value }) => value % 2 === 0;
+  const odd: Predicate = ({ value }) => value % 2 !== 0;
+  const red: Predicate = ({ color }) => color === "red";
+  const black: Predicate = ({ color }) => color === "black";
+  const low: Predicate = ({ value }) => value <= 18;
+  const high: Predicate = ({ value }) => value > 18;
+
   return (
     <section className={styles.tableContainer}>
       <div>
@@ -14,28 +26,54 @@ export const GameTable: React.FC = () => {
         </div>
         <footer>
           <div className={styles.groupBettings}>
-            <DozenBet>0</DozenBet>
+            <DozenBet offset={0} />
             <OtherBottomBets>
-              <span>1 - 18</span>
-              <span>even</span>
+              <span
+                onMouseEnter={() => highlightCells(highlightBy(low))}
+                onMouseLeave={unhighlightCells}
+              >
+                1 - 18
+              </span>
+              <span
+                onMouseEnter={() => highlightCells(highlightBy(even))}
+                onMouseLeave={unhighlightCells}
+              >
+                even
+              </span>
             </OtherBottomBets>
           </div>
           <div className={styles.groupBettings}>
-            <DozenBet>12</DozenBet>
+            <DozenBet offset={12} />
             <OtherBottomBets>
-              <span>
+              <span
+                onMouseEnter={() => highlightCells(highlightBy(red))}
+                onMouseLeave={unhighlightCells}
+              >
                 <div data-color="red" />
               </span>
-              <span>
+              <span
+                onMouseEnter={() => highlightCells(highlightBy(black))}
+                onMouseLeave={unhighlightCells}
+              >
                 <div data-color="black" />
               </span>
             </OtherBottomBets>
           </div>
           <div className={styles.groupBettings}>
-            <DozenBet>24</DozenBet>
+            <DozenBet offset={24} />
             <OtherBottomBets>
-              <span>odd</span>
-              <span>19 - 36</span>
+              <span
+                onMouseEnter={() => highlightCells(highlightBy(odd))}
+                onMouseLeave={unhighlightCells}
+              >
+                odd
+              </span>
+              <span
+                onMouseEnter={() => highlightCells(highlightBy(high))}
+                onMouseLeave={unhighlightCells}
+              >
+                19 - 36
+              </span>
             </OtherBottomBets>
           </div>
         </footer>

@@ -17,6 +17,12 @@
   font-weight: 700;
   border-left: var(--standard-border);
   border-top: var(--standard-border);
+  user-select: none;
+  transition: background-color 250ms;
+
+  &:hover {
+    background-color: var(--color-highlight);
+  }
 
   &:nth-child(n + 9) {
     border-bottom: var(--standard-border);

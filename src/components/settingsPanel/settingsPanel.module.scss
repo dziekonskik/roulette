@@ -5,7 +5,13 @@
 
 .tokensWrapper {
   display: flex;
-  place-content: center space-around;
+  place-content: end space-around;
+  max-width: 500px;
+  margin: 0 auto;
+
+  @media (min-width: 1450px) {
+    transform: translateY(40px);
+  }
 }
 
 .stats {

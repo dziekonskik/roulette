@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { NumbersGrid } from "../numbersGrid/NumbersGrid";
 import { LeftAddon } from "./LeftAddon";
 import { RightAddon } from "./RightAddon";
@@ -8,15 +9,14 @@ interface TablePartProps {
   variant: "left" | "middle" | "right";
 }
 
-export const TableSection: React.FC<TablePartProps> = ({
-  startIndex,
-  variant,
-}) => {
-  return (
-    <div className={styles.wrapper}>
-      {variant === "left" && <LeftAddon />}
-      <NumbersGrid {...{ startIndex }} />
-      {variant === "right" && <RightAddon />}
-    </div>
-  );
-};
+export const TableSection: React.FC<TablePartProps> = memo(
+  ({ startIndex, variant }) => {
+    return (
+      <div className={styles.wrapper}>
+        {variant === "left" && <LeftAddon />}
+        <NumbersGrid {...{ startIndex }} />
+        {variant === "right" && <RightAddon />}
+      </div>
+    );
+  }
+);

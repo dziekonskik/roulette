@@ -5,6 +5,7 @@
   cursor: pointer;
   position: relative;
   transition: transform 250ms ease-out;
+  margin-right: 20px;
 
   &:hover {
     transform: scale(1.07);

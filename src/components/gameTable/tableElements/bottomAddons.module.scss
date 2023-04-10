@@ -2,6 +2,7 @@
   display: flex;
   place-content: center;
   color: var(--color-grid-divider);
+  user-select: none;
 
   font-size: 24px;
   font-weight: 700;
