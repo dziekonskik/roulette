@@ -1,5 +1,5 @@
 import { useGameTable } from "../../../store/tableStore/tableStoreProvider";
-import { highlightBy } from "../../../utils/highlightFunctions";
+import { highlightBy } from "../../../utils/hoverHelpers";
 import type { Predicate } from "../../../utils/types";
 import styles from "./tableSection.module.scss";
 
