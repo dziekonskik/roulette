@@ -6,6 +6,7 @@ export const highlightBy = (fn: Predicate) => {
   return filteredCells.map((cell) => cell.value);
 };
 
+//top and bottom
 // row 1
 export const highlightColumn = (value: number) =>
   highlightBy((c) =>
@@ -20,8 +21,8 @@ export const highlightCurrentAndNextColumn = (value: number) => [
   ...highlightColumn(value),
   ...highlightColumn(value + 3),
 ];
-//row 2 and 3
 
+//row 2 and 3
 export const highlightAdjecentTwo = (value: number) =>
   highlightBy((c) => c.value === value || c.value === value + 1);
 export const highlightAdjecentTwoAndZero = (value: number) => [
@@ -67,3 +68,14 @@ export const highlightPreviousFourBottom = (value: number) =>
       c.value === value - 3 ||
       c.value === value - 4
   );
+
+//left and right
+
+export const highlightCurrentAndLeft = (value: number) =>
+  highlightBy((c) => c.value === value || c.value === value - 3);
+export const highlightCurrentAndZero = (value: number) => [
+  ...highlightBy((c) => c.value === value),
+  0,
+];
+export const highlightCurrentAndRight = (value: number) =>
+  highlightBy((c) => c.value === value || c.value === value + 3);

@@ -7,8 +7,11 @@ import {
   highlightAdjecentTwoAndZero,
   highlightColumn,
   highlightColumnAndZero,
+  highlightCurrentAndLeft,
   highlightCurrentAndNextColumn,
   highlightCurrentAndPreviousColumn,
+  highlightCurrentAndRight,
+  highlightCurrentAndZero,
   highlightPreviousFourBottom,
   highlightPreviousFourTop,
 } from "./hoverHelpers";
@@ -91,3 +94,23 @@ export const handleHoverOnBottom =
         break;
     }
   };
+
+export const handleHoverLeft = (
+  value: number,
+  stateSetter: (newCells: number[]) => void
+) => {
+  if (value <= 3) {
+    stateSetter(highlightCurrentAndZero(value));
+  } else {
+    stateSetter(highlightCurrentAndLeft(value));
+  }
+};
+
+export const handleHoverRight = (
+  value: number,
+  stateSetter: (newCells: number[]) => void
+) => {
+  if (value <= 34) {
+    stateSetter(highlightCurrentAndRight(value));
+  }
+};

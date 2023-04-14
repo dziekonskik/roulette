@@ -1,8 +1,10 @@
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { useGameTable } from "../../../store/tableStore/tableStoreProvider";
 import {
+  handleHoverLeft,
   handleHoverOnBottom,
   handleHoverOnTop,
+  handleHoverRight,
 } from "../../../utils/highlightFunctions";
 import type { TableCell } from "../../../utils/types";
 import styles from "./numbersGrid.module.scss";
@@ -45,7 +47,15 @@ export const GridCell: React.FC<GridCellProps> = memo(
         const hoverOnBottom = height - offsetY < BET_ACTIVATION_THRESHOLD;
         const hoverOnLeft = offsetX < BET_ACTIVATION_THRESHOLD;
         const hoverOnRight = width - offsetX < BET_ACTIVATION_THRESHOLD;
-        if (event.target !== event.currentTarget) return;
+
+        if (event.target !== event.currentTarget) {
+          unhighlightCells();
+          return;
+        }
+
+        if (!hoverOnBottom || !hoverOnTop || !hoverOnLeft || !hoverOnRight) {
+          unhighlightCells();
+        }
 
         if (hoverOnTop) {
           handleHoverOnTop(value, hoverOnLeft, hoverOnRight)(highlightCells);
@@ -53,8 +63,14 @@ export const GridCell: React.FC<GridCellProps> = memo(
         if (hoverOnBottom) {
           handleHoverOnBottom(value, hoverOnLeft, hoverOnRight)(highlightCells);
         }
+        if (!hoverOnTop && !hoverOnBottom && hoverOnLeft) {
+          handleHoverLeft(value, highlightCells);
+        }
+        if (!hoverOnTop && !hoverOnBottom && hoverOnRight) {
+          handleHoverRight(value, highlightCells);
+        }
       },
-      [height, width, highlightCells, value]
+      [height, width, highlightCells, value, unhighlightCells]
     );
     return (
       <div
