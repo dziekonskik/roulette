@@ -1,5 +1,6 @@
 .canvas {
   position: absolute;
+  overflow: hidden;
   perspective: 1000px;
   background: linear-gradient(to right, #00000080 0%, #ffffff00 40%),
     linear-gradient(to left, #00000080 0%, #ffffff00 40%),
