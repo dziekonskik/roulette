@@ -1,8 +1,10 @@
 import { observer } from "mobx-react-lite";
+import { useCallback, useMemo } from "react";
 import { useGameTable } from "../../../store/tableStore/tableStoreProvider";
 import { TABLE_CELLS } from "../../../utils/tableConfig";
 import { GridCell } from "./GridCell";
 import styles from "./numbersGrid.module.scss";
+import type { ClickHandler } from "./types";
 
 interface NumbersGridProps {
   startIndex: number;
@@ -10,9 +12,17 @@ interface NumbersGridProps {
 
 export const NumbersGrid: React.FC<NumbersGridProps> = observer(
   ({ startIndex }) => {
-    const { highlightedCells } = useGameTable();
+    const { highlightedCells, bets } = useGameTable();
+
+    const placedBets = useMemo(() => {
+      const allBets: number[] = [];
+
+      return allBets;
+    }, [bets]);
+
+    const handlePlaceBet = useCallback((event: ClickHandler) => {}, []);
     return (
-      <div className={styles.container}>
+      <div className={styles.container} onClick={handlePlaceBet}>
         {Array.from({ length: 12 }, (_, i) => {
           const currentCell = TABLE_CELLS[startIndex + i];
           return (

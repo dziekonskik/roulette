@@ -1,7 +1,6 @@
 import { observer } from "mobx-react-lite";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useGameTable } from "../../../store/tableStore/tableStoreProvider";
-import { BetToken } from "../../../store/tableStore/types";
 import {
   handleHoverLeft,
   handleHoverOnBottom,
@@ -9,7 +8,7 @@ import {
   handleHoverRight,
 } from "../../../utils/highlightFunctions";
 import type { TableCell } from "../../../utils/types";
-import { MiniToken } from "../../gameToken/MiniToken";
+import { GridCellMiniTokenCanvas } from "./GridCellMiniTokenCanvas";
 import styles from "./numbersGrid.module.scss";
 import type { CellDimensions, MouseHandler } from "./types";
 
@@ -29,7 +28,6 @@ export const GridCell: React.FC<GridCellProps> = observer(
     const cellRef = useRef<HTMLDivElement | null>(null);
     const spanRef = useRef<HTMLSpanElement | null>(null);
     const {
-      bets,
       highlightedCells,
       selectedTokenValue,
       highlightCells,
@@ -38,35 +36,6 @@ export const GridCell: React.FC<GridCellProps> = observer(
       placeBet,
     } = useGameTable();
     const { color, value } = cellData;
-
-    const straightUpBets = useMemo(() => {
-      const straightUps = bets.find(({ name }) => name === "straight up");
-      return straightUps?.betTokens.reduce(
-        (total, current) => {
-          if (current.number !== value) {
-            return total;
-          }
-          switch (current.tokenValue) {
-            case 1:
-              total[0].push(current);
-              break;
-            case 10:
-              total[1].push(current);
-              break;
-            case 50:
-              total[2].push(current);
-              break;
-            case 100:
-              total[3].push(current);
-              break;
-            default:
-              break;
-          }
-          return total;
-        },
-        [[], [], [], []] as BetToken[][]
-      );
-    }, [bets, value]);
 
     useEffect(() => {
       const cellBox = cellRef.current?.getBoundingClientRect();
@@ -113,14 +82,14 @@ export const GridCell: React.FC<GridCellProps> = observer(
       [height, width, highlightCells, value, unhighlightCells]
     );
 
-    const handleStraightUpBet = () => {
+    const handleStraightUpBet = useCallback(() => {
       if (highlightedCells.length) return;
       placeBet("straight up", {
         number: value,
         tokenValue: selectedTokenValue,
         id: Math.random(),
       });
-    };
+    }, [highlightedCells.length, placeBet, selectedTokenValue, value]);
 
     return (
       <div
@@ -134,13 +103,7 @@ export const GridCell: React.FC<GridCellProps> = observer(
         onMouseDown={handleStraightUpBet}
       >
         <span ref={spanRef} style={{ backgroundColor: color }}>
-          {straightUpBets?.map((array) => (
-            <ul>
-              {array.map((bet, index) => (
-                <MiniToken value={bet.tokenValue} key={bet.id} index={index} />
-              ))}
-            </ul>
-          ))}
+          <GridCellMiniTokenCanvas value={value} />
           {value}
         </span>
       </div>
