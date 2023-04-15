@@ -51,3 +51,18 @@
     transform: rotate(360deg) translateX(45px) rotate(-360deg);
   }
 }
+
+.miniToken {
+  list-style: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 15px;
+  height: 15px;
+  padding-top: 1px;
+  border-radius: 50%;
+  border: 0.5px solid var(--color-white);
+  font-size: 7px;
+  display: flex;
+  place-content: center;
+}

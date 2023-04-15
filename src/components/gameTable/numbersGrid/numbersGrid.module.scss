@@ -29,11 +29,35 @@
   }
 
   span {
+    position: relative;
     display: flex;
     place-content: center;
     padding: 10px;
     border-radius: 50%;
     flex-shrink: 0;
     flex-grow: 1;
+
+    ul {
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      padding: 0;
+      &:nth-child(1) {
+        top: -5px;
+        left: -2px;
+      }
+      &:nth-child(2) {
+        top: -5px;
+        right: -5px;
+      }
+      &:nth-child(3) {
+        bottom: -5px;
+        left: -5px;
+      }
+      &:nth-child(4) {
+        bottom: -5px;
+        right: -5px;
+      }
+    }
   }
 }
