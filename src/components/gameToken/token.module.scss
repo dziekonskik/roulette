@@ -57,12 +57,13 @@
   position: absolute;
   left: 0;
   top: 0;
-  width: 15px;
-  height: 15px;
+  width: 17px;
+  height: 17px;
   padding-top: 1px;
   border-radius: 50%;
   border: 0.5px solid var(--color-white);
-  font-size: 7px;
+  font-size: 9px;
+  font-weight: 800;
   display: flex;
   place-content: center;
 }

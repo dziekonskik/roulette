@@ -20,16 +20,16 @@ export const GridCellMiniTokenCanvas: React.FC<GridCellMiniTokenCanvasProps> =
             return total;
           }
           switch (current.tokenValue) {
-            case 1:
+            case 10:
               total[0].push(current);
               break;
-            case 10:
+            case 50:
               total[1].push(current);
               break;
-            case 50:
+            case 100:
               total[2].push(current);
               break;
-            case 100:
+            case 500:
               total[3].push(current);
               break;
             default:
@@ -44,8 +44,8 @@ export const GridCellMiniTokenCanvas: React.FC<GridCellMiniTokenCanvasProps> =
     if (!straightUpBets) return null;
     return (
       <>
-        {straightUpBets.map((array) => (
-          <ul>
+        {straightUpBets.map((array, i) => (
+          <ul key={i}>
             {array.map((bet, index) => (
               <MiniToken value={bet.tokenValue} key={bet.id} index={index} />
             ))}

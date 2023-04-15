@@ -3,7 +3,7 @@ import type { TokenValue } from "../../components/gameToken/types";
 import type { CashInBets, CellPosition } from "./types";
 
 class GameTableStore {
-  public selectedTokenValue: TokenValue = 1;
+  public selectedTokenValue: TokenValue = 10;
   public cellsPositions: CellPosition[] = [];
   public highlightedCells: number[] = [];
   public bets: CashInBets[] = [

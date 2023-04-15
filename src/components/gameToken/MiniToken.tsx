@@ -16,7 +16,7 @@ export const MiniToken: React.FC<MiniTokenProps> = ({ value, index }) => {
         transform: `translateY(-${Math.min(index * 0.5, 20)}px)`,
       }}
     >
-      {index}
+      {index + 1}
     </li>
   );
 };

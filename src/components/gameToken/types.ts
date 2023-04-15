@@ -1,2 +1,2 @@
-export type TokenValue = 1 | 10 | 50 | 100;
-export type TokenColor = "#52B5E2" | "#F0564B" | "#F3C620" | "#019137";
+export type TokenValue = 10 | 50 | 100 | 500;
+export type TokenColor = "#003366" | "#F0564B" | "#BF8B00" | "#019137";
