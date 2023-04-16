@@ -1,5 +1,4 @@
 import { observer } from "mobx-react-lite";
-import { useCallback } from "react";
 import { useStore } from "../../../store/rootStoreProvider";
 import { highlightBy } from "../../../utils/hoverHelpers";
 import type { Predicate } from "../../../utils/types";
@@ -21,13 +20,13 @@ export const RightAddon: React.FC = observer(() => {
   const rowTwo: Predicate = ({ value }) => value % 3 === 2;
   const rowThree: Predicate = ({ value }) => value % 3 === 1;
 
-  const handleLineBet = useCallback(() => {
+  const handleLineBet = () => {
     placeBet("line", {
       stakedFields: highlightedCells,
       tokenValue: selectedTokenValue,
       id: Math.random(),
     });
-  }, [placeBet, highlightedCells, selectedTokenValue]);
+  };
 
   return (
     <div className={styles.rightAddon}>

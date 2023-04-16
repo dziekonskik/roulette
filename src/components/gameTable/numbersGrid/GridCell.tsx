@@ -47,41 +47,38 @@ export const GridCell: React.FC<GridCellProps> = observer(
       setDimensions({ width, height });
     }, [cellRef, setCellsPosition, value]);
 
-    const handleMouseMove = useCallback(
-      (event: MouseHandler) => {
-        const {
-          nativeEvent: { offsetX, offsetY },
-        } = event;
-        if (!width || !height) return;
-        const hoverOnTop = offsetY < BET_ACTIVATION_THRESHOLD;
-        const hoverOnBottom = height - offsetY < BET_ACTIVATION_THRESHOLD;
-        const hoverOnLeft = offsetX < BET_ACTIVATION_THRESHOLD;
-        const hoverOnRight = width - offsetX < BET_ACTIVATION_THRESHOLD;
+    const handleMouseMove = (event: MouseHandler) => {
+      const {
+        nativeEvent: { offsetX, offsetY },
+      } = event;
+      if (!width || !height) return;
+      const hoverOnTop = offsetY < BET_ACTIVATION_THRESHOLD;
+      const hoverOnBottom = height - offsetY < BET_ACTIVATION_THRESHOLD;
+      const hoverOnLeft = offsetX < BET_ACTIVATION_THRESHOLD;
+      const hoverOnRight = width - offsetX < BET_ACTIVATION_THRESHOLD;
 
-        if (event.target !== event.currentTarget) {
-          unhighlightCells();
-          return;
-        }
+      if (event.target !== event.currentTarget) {
+        unhighlightCells();
+        return;
+      }
 
-        if (!hoverOnBottom || !hoverOnTop || !hoverOnLeft || !hoverOnRight) {
-          unhighlightCells();
-        }
+      if (!hoverOnBottom || !hoverOnTop || !hoverOnLeft || !hoverOnRight) {
+        unhighlightCells();
+      }
 
-        if (hoverOnTop) {
-          handleHoverOnTop(value, hoverOnLeft, hoverOnRight)(highlightCells);
-        }
-        if (hoverOnBottom) {
-          handleHoverOnBottom(value, hoverOnLeft, hoverOnRight)(highlightCells);
-        }
-        if (!hoverOnTop && !hoverOnBottom && hoverOnLeft) {
-          handleHoverLeft(value, highlightCells);
-        }
-        if (!hoverOnTop && !hoverOnBottom && hoverOnRight) {
-          handleHoverRight(value, highlightCells);
-        }
-      },
-      [height, width, highlightCells, value, unhighlightCells]
-    );
+      if (hoverOnTop) {
+        handleHoverOnTop(value, hoverOnLeft, hoverOnRight)(highlightCells);
+      }
+      if (hoverOnBottom) {
+        handleHoverOnBottom(value, hoverOnLeft, hoverOnRight)(highlightCells);
+      }
+      if (!hoverOnTop && !hoverOnBottom && hoverOnLeft) {
+        handleHoverLeft(value, highlightCells);
+      }
+      if (!hoverOnTop && !hoverOnBottom && hoverOnRight) {
+        handleHoverRight(value, highlightCells);
+      }
+    };
 
     const handleStraightUpBet = useCallback(() => {
       if (highlightedCells.length) return;
