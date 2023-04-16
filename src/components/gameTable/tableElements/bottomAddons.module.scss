@@ -1,3 +1,5 @@
+@use "mini-token-canvas;";
+
 @mixin bottom-adddons-common {
   display: flex;
   place-content: center;
@@ -8,10 +10,18 @@
   font-weight: 700;
 }
 
+@mixin mini-token-canvas {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  padding: 0;
+}
+
 .dozenBet {
   @include bottom-adddons-common;
   border-bottom: var(--standard-border);
   padding: 10px 0;
+  position: relative;
 
   span {
     &:first-child {
@@ -21,9 +31,29 @@
       margin-left: 5px;
     }
   }
+  ul {
+    @include mini-token-canvas;
+
+    &:nth-child(1) {
+      top: 15px;
+      left: 40px;
+    }
+    &:nth-child(2) {
+      top: 15px;
+      right: 15px;
+    }
+    &:nth-child(3) {
+      bottom: 15px;
+      left: 60px;
+    }
+    &:nth-child(4) {
+      bottom: 12px;
+      right: 60px;
+    }
+  }
 }
 
-.bottomAddonTwo {
+.otherBottomBets {
   @include bottom-adddons-common;
 
   span {
@@ -31,6 +61,28 @@
     text-align: center;
     width: 100%;
     text-transform: uppercase;
+    position: relative;
+
+    ul {
+      @include mini-token-canvas;
+      z-index: 1;
+      &:nth-child(1) {
+        top: 15px;
+        left: 15px;
+      }
+      &:nth-child(2) {
+        top: 25px;
+        right: 10px;
+      }
+      &:nth-child(3) {
+        bottom: 5px;
+        left: 5px;
+      }
+      &:nth-child(4) {
+        bottom: 5px;
+        right: 50px;
+      }
+    }
 
     &:last-child {
       border-left: var(--standard-border);

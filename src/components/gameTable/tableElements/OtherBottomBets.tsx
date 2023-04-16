@@ -7,5 +7,5 @@ interface OtherBottomBetsProps {
 export const OtherBottomBets: React.FC<OtherBottomBetsProps> = ({
   children,
 }) => {
-  return <div className={styles.bottomAddonTwo}>{children}</div>;
+  return <div className={styles.otherBottomBets}>{children}</div>;
 };
