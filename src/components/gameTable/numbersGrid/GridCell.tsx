@@ -26,7 +26,6 @@ export const GridCell: React.FC<GridCellProps> = observer(
       height: undefined,
     });
     const cellRef = useRef<HTMLDivElement | null>(null);
-    const spanRef = useRef<HTMLSpanElement | null>(null);
     const {
       highlightedCells,
       selectedTokenValue,
@@ -39,12 +38,13 @@ export const GridCell: React.FC<GridCellProps> = observer(
 
     useEffect(() => {
       const cellBox = cellRef.current?.getBoundingClientRect();
-      const spanBox = spanRef.current?.getBoundingClientRect();
-      if (!cellBox || !spanBox) return;
+      const width = cellRef.current?.clientWidth;
+      const height = cellRef.current?.clientHeight;
+      if (!cellBox) return;
 
       setCellsPosition({ cellBox, value });
-      setDimensions({ width: cellBox?.width, height: cellBox?.height });
-    }, [cellRef, spanRef, setCellsPosition, value]);
+      setDimensions({ width, height });
+    }, [cellRef, setCellsPosition, value]);
 
     const handleMouseMove = useCallback(
       (event: MouseHandler) => {
@@ -102,7 +102,7 @@ export const GridCell: React.FC<GridCellProps> = observer(
         onMouseLeave={unhighlightCells}
         onMouseDown={handleStraightUpBet}
       >
-        <span ref={spanRef} style={{ backgroundColor: color }}>
+        <span style={{ backgroundColor: color }}>
           <GridCellMiniTokenCanvas value={value} />
           {value}
         </span>
