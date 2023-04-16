@@ -10,26 +10,20 @@ export type BetType =
   | "red/black"
   | "low/high";
 
-export type Bet = {
-  type: BetType;
-  value: number; // token value
-};
-
 export type Player = {
   name: string;
   balance: number;
-  bet: number;
   win: number;
 };
 
-export type Game = {
+export type GameState = {
   result: number | null;
   state: "idle" | "spinning";
 };
 
-export type GameState = {
+export type GameDetials = {
   player: Player;
-  roulette: Game;
+  roulette: GameState;
 };
 
 export interface RouletteStoreInterface {

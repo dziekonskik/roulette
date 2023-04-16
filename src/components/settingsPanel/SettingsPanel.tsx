@@ -4,14 +4,15 @@ import { Token } from "../gameToken/Token";
 import styles from "./settingsPanel.module.scss";
 
 export const SettingsPanel: React.FC = observer(() => {
-  const { gameStore, tableStore } = useStore();
-  const { totalBetValue, balance, lastWin } = gameStore;
+  const { bettingStore, gameStore, tableStore } = useStore();
+  const { cashInBet } = bettingStore;
+  const { balance, lastWin } = gameStore;
   const { selectedTokenValue, setSelectedToken } = tableStore;
 
   return (
     <section className={styles.settingsContainer}>
       <div className={styles.stats}>Cash: ${balance}</div>
-      <div className={styles.stats}>Bet: ${totalBetValue}</div>
+      <div className={styles.stats}>Bet: ${cashInBet}</div>
       <div className={styles.stats}>Win: ${lastWin}</div>
       <div className={styles.tokensWrapper}>
         <Token

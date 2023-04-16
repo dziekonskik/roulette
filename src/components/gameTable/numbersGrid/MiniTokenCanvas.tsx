@@ -1,8 +1,8 @@
 import { observer } from "mobx-react-lite";
 import { useMemo } from "react";
+import type { BetToken } from "../../../store/bettingStore/types";
 import type { BetType } from "../../../store/gameStore/types";
 import { useStore } from "../../../store/rootStoreProvider";
-import type { BetToken } from "../../../store/tableStore/types";
 import { MiniToken } from "../../gameToken/MiniToken";
 
 interface GridCellMiniTokenCanvasProps {
@@ -14,11 +14,11 @@ interface GridCellMiniTokenCanvasProps {
 export const MiniTokenCanvas: React.FC<GridCellMiniTokenCanvasProps> = observer(
   ({ value, betType, predicate }) => {
     const {
-      tableStore: { bets },
+      bettingStore: { betsDetails },
     } = useStore();
 
     const tableBets = useMemo(() => {
-      const foundBet = bets.find(({ name }) => name === betType);
+      const foundBet = betsDetails.find(({ name }) => name === betType);
 
       return foundBet?.betTokens.reduce(
         (total, current) => {
@@ -56,7 +56,7 @@ export const MiniTokenCanvas: React.FC<GridCellMiniTokenCanvasProps> = observer(
         },
         [[], [], [], []] as BetToken[][]
       );
-    }, [bets, betType, value, predicate]);
+    }, [betsDetails, betType, value, predicate]);
 
     if (!tableBets) return null;
     return (

@@ -5,7 +5,8 @@ import styles from "./tableSection.module.scss";
 
 export const LeftAddon: React.FC = observer(() => {
   const {
-    tableStore: { highlightedCells, selectedTokenValue, placeBet },
+    tableStore: { highlightedCells, selectedTokenValue },
+    bettingStore: { placeBet },
   } = useStore();
 
   const handleZeroBet = () => {

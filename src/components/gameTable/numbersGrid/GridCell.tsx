@@ -26,15 +26,15 @@ export const GridCell: React.FC<GridCellProps> = observer(
       height: undefined,
     });
     const cellRef = useRef<HTMLDivElement | null>(null);
-    const { tableStore } = useStore();
+    const { tableStore, bettingStore } = useStore();
     const {
       highlightedCells,
       selectedTokenValue,
       highlightCells,
       unhighlightCells,
       setCellsPosition,
-      placeBet,
     } = tableStore;
+    const { placeBet } = bettingStore;
     const { color, value } = cellData;
 
     useEffect(() => {

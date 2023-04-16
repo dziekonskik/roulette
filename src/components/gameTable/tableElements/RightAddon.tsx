@@ -12,8 +12,8 @@ export const RightAddon: React.FC = observer(() => {
       unhighlightCells,
       highlightedCells,
       selectedTokenValue,
-      placeBet,
     },
+    bettingStore: { placeBet },
   } = useStore();
 
   const rowOne: Predicate = ({ value }) => value % 3 === 0;
