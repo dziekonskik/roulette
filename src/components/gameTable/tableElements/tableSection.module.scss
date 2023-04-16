@@ -4,6 +4,13 @@
   user-select: none;
 }
 
+@mixin mini-token-canvas {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  padding: 0;
+}
+
 .wrapper {
   display: flex;
 
@@ -26,7 +33,27 @@
       font-size: 32px;
       color: var(--color-grid-divider);
       font-weight: 700;
-      transform: rotate(90deg);
+      transform: rotate(-90deg);
+
+      ul {
+        @include mini-token-canvas;
+        &:nth-child(1) {
+          top: 0;
+          left: -40px;
+        }
+        &:nth-child(2) {
+          top: -3px;
+          right: -15px;
+        }
+        &:nth-child(3) {
+          bottom: 15px;
+          left: -80px;
+        }
+        &:nth-child(4) {
+          bottom: 12px;
+          right: -60px;
+        }
+      }
     }
   }
 
@@ -55,6 +82,26 @@
 
         small {
           font-size: 16px;
+        }
+
+        ul {
+          @include mini-token-canvas;
+          &:nth-child(1) {
+            top: -7px;
+            left: -20px;
+          }
+          &:nth-child(2) {
+            top: -7px;
+            right: -5px;
+          }
+          &:nth-child(3) {
+            bottom: -5px;
+            left: -20px;
+          }
+          &:nth-child(4) {
+            bottom: -5px;
+            right: -10px;
+          }
         }
       }
     }

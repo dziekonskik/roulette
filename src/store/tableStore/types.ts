@@ -3,7 +3,7 @@ import type { BetType } from "../gameStore/types";
 
 export interface BetToken {
   id: number;
-  number: number;
+  stakedFields: number | number[];
   tokenValue: TokenValue;
 }
 export interface CashInBets {

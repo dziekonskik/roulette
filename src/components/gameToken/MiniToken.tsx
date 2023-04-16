@@ -5,15 +5,22 @@ import type { TokenValue } from "./types";
 interface MiniTokenProps {
   value: TokenValue;
   index: number;
+  revertedCanvas: boolean;
 }
 
-export const MiniToken: React.FC<MiniTokenProps> = ({ value, index }) => {
+export const MiniToken: React.FC<MiniTokenProps> = ({
+  value,
+  index,
+  revertedCanvas,
+}) => {
   return (
     <li
       className={styles.miniToken}
       style={{
         backgroundColor: colorMap[value],
-        transform: `translateY(-${Math.min(index * 0.5, 20)}px)`,
+        transform: revertedCanvas
+          ? `translateX(${Math.min(index * 0.5, 20)}px) rotate(90deg)`
+          : `translateY(-${Math.min(index * 0.5, 20)}px)`,
       }}
     >
       {index + 1}

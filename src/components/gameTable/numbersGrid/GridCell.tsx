@@ -8,7 +8,7 @@ import {
   handleHoverRight,
 } from "../../../utils/highlightFunctions";
 import type { TableCell } from "../../../utils/types";
-import { GridCellMiniTokenCanvas } from "./GridCellMiniTokenCanvas";
+import { MiniTokenCanvas } from "./MiniTokenCanvas";
 import styles from "./numbersGrid.module.scss";
 import type { CellDimensions, MouseHandler } from "./types";
 
@@ -86,7 +86,7 @@ export const GridCell: React.FC<GridCellProps> = observer(
     const handleStraightUpBet = useCallback(() => {
       if (highlightedCells.length) return;
       placeBet("straight up", {
-        number: value,
+        stakedFields: value,
         tokenValue: selectedTokenValue,
         id: Math.random(),
       });
@@ -104,7 +104,7 @@ export const GridCell: React.FC<GridCellProps> = observer(
         onMouseDown={handleStraightUpBet}
       >
         <span style={{ backgroundColor: color }}>
-          <GridCellMiniTokenCanvas value={value} />
+          <MiniTokenCanvas value={value} betType="straight up" />
           {value}
         </span>
       </div>
