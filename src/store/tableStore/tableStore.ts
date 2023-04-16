@@ -1,8 +1,10 @@
 import { makeAutoObservable } from "mobx";
 import type { TokenValue } from "../../components/gameToken/types";
+import { RootStore } from "../rootStore";
 import type { CashInBets, CellPosition } from "./types";
 
-class GameTableStore {
+export class GameTableStore {
+  public rootStore;
   public selectedTokenValue: TokenValue = 10;
   public cellsPositions: CellPosition[] = [];
   public highlightedCells: number[] = [];
@@ -19,7 +21,8 @@ class GameTableStore {
     { name: "street", multiplier: 11, betTokens: [] },
   ];
 
-  public constructor() {
+  public constructor(rootStore: RootStore) {
+    this.rootStore = rootStore;
     makeAutoObservable(this);
   }
 
@@ -27,6 +30,7 @@ class GameTableStore {
     name: CashInBets["name"],
     betDetails: CashInBets["betTokens"][number]
   ) => {
+    if (this.rootStore.gameStore.balance - betDetails.tokenValue < 0) return;
     this.bets = this.bets.map((bet) => {
       if (bet.name === name) {
         return {
@@ -53,5 +57,3 @@ class GameTableStore {
     this.highlightedCells = [];
   };
 }
-
-export const tableStore = new GameTableStore();

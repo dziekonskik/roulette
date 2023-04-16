@@ -18,7 +18,8 @@ export type Bet = {
 export type Player = {
   name: string;
   balance: number;
-  bet: Bet | null;
+  bet: number;
+  win: number;
 };
 
 export type Game = {
@@ -32,8 +33,6 @@ export type GameState = {
 };
 
 export interface RouletteStoreInterface {
-  gameState: GameState;
-  placeBet: (bet: Bet) => void;
   spinRoulette: () => void;
   resetGame: () => void;
   calculateWinnings: () => void;

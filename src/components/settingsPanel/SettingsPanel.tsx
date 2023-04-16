@@ -1,18 +1,18 @@
 import { observer } from "mobx-react-lite";
-import { useStore } from "../../store/gameStoreProvider";
-import { useGameTable } from "../../store/tableStore/tableStoreProvider";
+import { useStore } from "../../store/rootStoreProvider";
 import { Token } from "../gameToken/Token";
 import styles from "./settingsPanel.module.scss";
 
 export const SettingsPanel: React.FC = observer(() => {
-  const { selectedTokenValue, setSelectedToken } = useGameTable();
-  const { totalBetValue, balance, thisRoundWin } = useStore();
+  const { gameStore, tableStore } = useStore();
+  const { totalBetValue, balance, lastWin } = gameStore;
+  const { selectedTokenValue, setSelectedToken } = tableStore;
 
   return (
     <section className={styles.settingsContainer}>
       <div className={styles.stats}>Cash: ${balance}</div>
       <div className={styles.stats}>Bet: ${totalBetValue}</div>
-      <div className={styles.stats}>Win: ${thisRoundWin}</div>
+      <div className={styles.stats}>Win: ${lastWin}</div>
       <div className={styles.tokensWrapper}>
         <Token
           value={10}

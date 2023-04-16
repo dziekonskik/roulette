@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { useMemo } from "react";
-import { useGameTable } from "../../../store/tableStore/tableStoreProvider";
+import { useStore } from "../../../store/rootStoreProvider";
 import type { BetToken } from "../../../store/tableStore/types";
 import { MiniToken } from "../../gameToken/MiniToken";
 
@@ -10,7 +10,9 @@ interface GridCellMiniTokenCanvasProps {
 
 export const GridCellMiniTokenCanvas: React.FC<GridCellMiniTokenCanvasProps> =
   observer(({ value }) => {
-    const { bets } = useGameTable();
+    const {
+      tableStore: { bets },
+    } = useStore();
 
     const straightUpBets = useMemo(() => {
       const straightUps = bets.find(({ name }) => name === "straight up");

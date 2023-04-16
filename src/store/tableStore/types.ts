@@ -1,5 +1,5 @@
 import type { TokenValue } from "../../components/gameToken/types";
-import type { BetType } from "../types";
+import type { BetType } from "../gameStore/types";
 
 export interface BetToken {
   id: number;

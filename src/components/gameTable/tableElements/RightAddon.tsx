@@ -1,10 +1,12 @@
-import { useGameTable } from "../../../store/tableStore/tableStoreProvider";
+import { useStore } from "../../../store/rootStoreProvider";
 import { highlightBy } from "../../../utils/hoverHelpers";
 import type { Predicate } from "../../../utils/types";
 import styles from "./tableSection.module.scss";
 
 export const RightAddon: React.FC = () => {
-  const { highlightCells, unhighlightCells } = useGameTable();
+  const {
+    tableStore: { highlightCells, unhighlightCells },
+  } = useStore();
 
   const rowOne: Predicate = ({ value }) => value % 3 === 0;
   const rowTwo: Predicate = ({ value }) => value % 3 === 2;

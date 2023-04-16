@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useGameTable } from "../../../store/tableStore/tableStoreProvider";
+import { useStore } from "../../../store/rootStoreProvider";
 import {
   handleHoverLeft,
   handleHoverOnBottom,
@@ -26,6 +26,7 @@ export const GridCell: React.FC<GridCellProps> = observer(
       height: undefined,
     });
     const cellRef = useRef<HTMLDivElement | null>(null);
+    const { tableStore } = useStore();
     const {
       highlightedCells,
       selectedTokenValue,
@@ -33,7 +34,7 @@ export const GridCell: React.FC<GridCellProps> = observer(
       unhighlightCells,
       setCellsPosition,
       placeBet,
-    } = useGameTable();
+    } = tableStore;
     const { color, value } = cellData;
 
     useEffect(() => {

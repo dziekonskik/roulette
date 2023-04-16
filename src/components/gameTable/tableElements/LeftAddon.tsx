@@ -1,9 +1,11 @@
 import { observer } from "mobx-react-lite";
-import { useGameTable } from "../../../store/tableStore/tableStoreProvider";
+import { useStore } from "../../../store/rootStoreProvider";
 import styles from "./tableSection.module.scss";
 
 export const LeftAddon: React.FC = observer(() => {
-  const { highlightedCells } = useGameTable();
+  const {
+    tableStore: { highlightedCells },
+  } = useStore();
 
   return (
     <div

@@ -1,14 +1,11 @@
 import { Game } from "./components/Game";
-import { GameStoreProvider } from "./store/gameStoreProvider";
-import { GameTableProvider } from "./store/tableStore/tableStoreProvider";
+import { StoreProvider } from "./store/rootStoreProvider";
 
 function App() {
   return (
-    <GameStoreProvider>
-      <GameTableProvider>
-        <Game />
-      </GameTableProvider>
-    </GameStoreProvider>
+    <StoreProvider>
+      <Game />
+    </StoreProvider>
   );
 }
 

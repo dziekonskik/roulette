@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { useCallback, useMemo } from "react";
-import { useGameTable } from "../../../store/tableStore/tableStoreProvider";
+import { useStore } from "../../../store/rootStoreProvider";
 import { TABLE_CELLS } from "../../../utils/tableConfig";
 import { GridCell } from "./GridCell";
 import styles from "./numbersGrid.module.scss";
@@ -12,7 +12,9 @@ interface NumbersGridProps {
 
 export const NumbersGrid: React.FC<NumbersGridProps> = observer(
   ({ startIndex }) => {
-    const { highlightedCells, bets } = useGameTable();
+    const {
+      tableStore: { highlightedCells, bets },
+    } = useStore();
 
     const placedBets = useMemo(() => {
       const allBets: number[] = [];

@@ -1,4 +1,4 @@
-import { useGameTable } from "../../store/tableStore/tableStoreProvider";
+import { useStore } from "../../store/rootStoreProvider";
 import { highlightBy } from "../../utils/hoverHelpers";
 import type { Predicate } from "../../utils/types";
 import styles from "./gameTable.module.scss";
@@ -7,7 +7,8 @@ import { OtherBottomBets } from "./tableElements/OtherBottomBets";
 import { TableSection } from "./tableElements/TableSection";
 
 export const GameTable: React.FC = () => {
-  const { highlightCells, unhighlightCells } = useGameTable();
+  const { tableStore } = useStore();
+  const { highlightCells, unhighlightCells } = tableStore;
 
   const even: Predicate = ({ value }) => value % 2 === 0;
   const odd: Predicate = ({ value }) => value % 2 !== 0;

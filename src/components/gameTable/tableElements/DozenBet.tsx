@@ -1,5 +1,5 @@
 import { memo, useMemo } from "react";
-import { useGameTable } from "../../../store/tableStore/tableStoreProvider";
+import { useStore } from "../../../store/rootStoreProvider";
 import styles from "./bottomAddons.module.scss";
 
 interface DozenBetProps {
@@ -7,7 +7,9 @@ interface DozenBetProps {
 }
 
 export const DozenBet: React.FC<DozenBetProps> = memo(({ offset }) => {
-  const { highlightCells } = useGameTable();
+  const {
+    tableStore: { highlightCells },
+  } = useStore();
 
   const dozenBetNumbers = useMemo(() => {
     return Array.from({ length: 12 }, (_, i) => offset + 1 + i);
