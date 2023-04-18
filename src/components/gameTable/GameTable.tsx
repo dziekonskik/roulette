@@ -1,9 +1,16 @@
 import { observer } from "mobx-react-lite";
 import type { BetType } from "../../store/gameStore/types";
 import { useStore } from "../../store/rootStoreProvider";
-import { getCellNumbersByColor } from "../../utils/functions";
+import {
+  betOnBlack,
+  betOnRed,
+  evenBet,
+  highBet,
+  lowBet,
+  oddBet,
+} from "../../utils/betHelpers";
 import { highlightBy } from "../../utils/hoverHelpers";
-import type { Predicate } from "../../utils/types";
+import type { HoverPredicate } from "../../utils/types";
 import styles from "./gameTable.module.scss";
 import { MiniTokenCanvas } from "./numbersGrid/MiniTokenCanvas";
 import { DozenBet } from "./tableElements/DozenBet";
@@ -21,12 +28,12 @@ export const GameTable: React.FC = observer(() => {
     bettingStore: { placeBet },
   } = useStore();
 
-  const even: Predicate = ({ value }) => value % 2 === 0;
-  const odd: Predicate = ({ value }) => value % 2 !== 0;
-  const red: Predicate = ({ color }) => color === "red";
-  const black: Predicate = ({ color }) => color === "black";
-  const low: Predicate = ({ value }) => value <= 18;
-  const high: Predicate = ({ value }) => value > 18;
+  const even: HoverPredicate = ({ value }) => value % 2 === 0;
+  const odd: HoverPredicate = ({ value }) => value % 2 !== 0;
+  const red: HoverPredicate = ({ color }) => color === "red";
+  const black: HoverPredicate = ({ color }) => color === "black";
+  const low: HoverPredicate = ({ value }) => value <= 18;
+  const high: HoverPredicate = ({ value }) => value > 18;
 
   const handleAddBet = (type: BetType) => {
     placeBet(type, {
@@ -53,21 +60,14 @@ export const GameTable: React.FC = observer(() => {
                 onMouseLeave={unhighlightCells}
                 onClick={() => handleAddBet("low/high")}
               >
-                <MiniTokenCanvas
-                  betType="low/high"
-                  predicate={(numbers) => numbers.every((n) => n <= 18)}
-                />
-                1 - 18
+                <MiniTokenCanvas betType="low/high" predicate={lowBet} />1 - 18
               </span>
               <span
                 onMouseEnter={() => highlightCells(highlightBy(even))}
                 onMouseLeave={unhighlightCells}
                 onClick={() => handleAddBet("even/odd")}
               >
-                <MiniTokenCanvas
-                  betType="even/odd"
-                  predicate={(numbers) => numbers.every((n) => n % 2 === 0)}
-                />
+                <MiniTokenCanvas betType="even/odd" predicate={evenBet} />
                 even
               </span>
             </OtherBottomBets>
@@ -80,14 +80,7 @@ export const GameTable: React.FC = observer(() => {
                 onMouseLeave={unhighlightCells}
                 onClick={() => handleAddBet("red/black")}
               >
-                <MiniTokenCanvas
-                  betType="red/black"
-                  predicate={(numbers) =>
-                    numbers.every((n) =>
-                      getCellNumbersByColor("red").includes(n)
-                    )
-                  }
-                />
+                <MiniTokenCanvas betType="red/black" predicate={betOnRed} />
                 <div data-color="red" />
               </span>
               <span
@@ -95,14 +88,7 @@ export const GameTable: React.FC = observer(() => {
                 onMouseLeave={unhighlightCells}
                 onClick={() => handleAddBet("red/black")}
               >
-                <MiniTokenCanvas
-                  betType="red/black"
-                  predicate={(numbers) =>
-                    numbers.every((n) =>
-                      getCellNumbersByColor("black").includes(n)
-                    )
-                  }
-                />
+                <MiniTokenCanvas betType="red/black" predicate={betOnBlack} />
                 <div data-color="black" />
               </span>
             </OtherBottomBets>
@@ -115,10 +101,7 @@ export const GameTable: React.FC = observer(() => {
                 onMouseLeave={unhighlightCells}
                 onClick={() => handleAddBet("even/odd")}
               >
-                <MiniTokenCanvas
-                  betType="even/odd"
-                  predicate={(numbers) => numbers.every((n) => n % 2 !== 0)}
-                />
+                <MiniTokenCanvas betType="even/odd" predicate={oddBet} />
                 odd
               </span>
               <span
@@ -126,10 +109,7 @@ export const GameTable: React.FC = observer(() => {
                 onMouseLeave={unhighlightCells}
                 onClick={() => handleAddBet("low/high")}
               >
-                <MiniTokenCanvas
-                  betType="low/high"
-                  predicate={(numbers) => numbers.every((n) => n > 18)}
-                />
+                <MiniTokenCanvas betType="low/high" predicate={highBet} />
                 19 - 36
               </span>
             </OtherBottomBets>

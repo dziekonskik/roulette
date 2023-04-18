@@ -3,7 +3,7 @@ export type BetType =
   | "split"
   | "street"
   | "corner"
-  | "line"
+  | "six-line"
   | "dozen"
   | "column"
   | "even/odd"

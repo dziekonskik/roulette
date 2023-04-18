@@ -4,6 +4,7 @@ import type { BetToken } from "../../../store/bettingStore/types";
 import type { BetType } from "../../../store/gameStore/types";
 import { useStore } from "../../../store/rootStoreProvider";
 import { MiniToken } from "../../gameToken/MiniToken";
+import styles from "./numbersGrid.module.scss";
 
 interface GridCellMiniTokenCanvasProps {
   value?: number;
@@ -62,13 +63,13 @@ export const MiniTokenCanvas: React.FC<GridCellMiniTokenCanvasProps> = observer(
     return (
       <>
         {tableBets.map((array, i) => (
-          <ul key={i}>
+          <ul key={i} className={styles[betType]}>
             {array.map((bet, index) => (
               <MiniToken
                 value={bet.tokenValue}
                 key={bet.id}
                 index={index}
-                revertedCanvas={betType === "line" || value === 0}
+                revertedCanvas={betType === "column" || value === 0}
               />
             ))}
           </ul>

@@ -1,6 +1,15 @@
 import { observer } from "mobx-react-lite";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useStore } from "../../../store/rootStoreProvider";
+import {
+  corner,
+  horizontalSplit,
+  regularStreet,
+  sixLine,
+  splitWithZero,
+  streetWithZero,
+  verticalSplit,
+} from "../../../utils/betHelpers";
 import {
   handleHoverLeft,
   handleHoverOnBottom,
@@ -80,14 +89,43 @@ export const GridCell: React.FC<GridCellProps> = observer(
       }
     };
 
-    const handleStraightUpBet = useCallback(() => {
-      if (highlightedCells.length) return;
-      placeBet("straight up", {
-        stakedFields: value,
-        tokenValue: selectedTokenValue,
-        id: Math.random(),
-      });
-    }, [highlightedCells.length, placeBet, selectedTokenValue, value]);
+    const handlePlaceBet = () => {
+      if (!highlightedCells.length) {
+        placeBet("straight up", {
+          stakedFields: value,
+          tokenValue: selectedTokenValue,
+          id: Math.random(),
+        });
+      }
+      if (highlightedCells.length === 2) {
+        placeBet("split", {
+          stakedFields: highlightedCells,
+          tokenValue: selectedTokenValue,
+          id: Math.random(),
+        });
+      }
+      if (highlightedCells.length === 3) {
+        placeBet("street", {
+          stakedFields: highlightedCells,
+          tokenValue: selectedTokenValue,
+          id: Math.random(),
+        });
+      }
+      if (highlightedCells.length === 4) {
+        placeBet("corner", {
+          stakedFields: highlightedCells,
+          tokenValue: selectedTokenValue,
+          id: Math.random(),
+        });
+      }
+      if (highlightedCells.length === 6) {
+        placeBet("six-line", {
+          stakedFields: highlightedCells,
+          tokenValue: selectedTokenValue,
+          id: Math.random(),
+        });
+      }
+    };
 
     return (
       <div
@@ -98,8 +136,15 @@ export const GridCell: React.FC<GridCellProps> = observer(
         }}
         onMouseMove={handleMouseMove}
         onMouseLeave={unhighlightCells}
-        onMouseDown={handleStraightUpBet}
+        onClick={handlePlaceBet}
       >
+        <MiniTokenCanvas betType="split" predicate={verticalSplit(value)} />
+        <MiniTokenCanvas betType="split" predicate={horizontalSplit(value)} />
+        <MiniTokenCanvas betType="split" predicate={splitWithZero(value)} />
+        <MiniTokenCanvas betType="street" predicate={regularStreet(value)} />
+        <MiniTokenCanvas betType="street" predicate={streetWithZero(value)} />
+        <MiniTokenCanvas betType="corner" predicate={corner(value)} />
+        <MiniTokenCanvas betType="six-line" predicate={sixLine(value)} />
         <span style={{ backgroundColor: color }}>
           <MiniTokenCanvas value={value} betType="straight up" />
           {value}

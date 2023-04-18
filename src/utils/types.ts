@@ -4,5 +4,6 @@ export type TableCell = {
   value: number;
   color: TableCellColor;
 };
-
-export type Predicate = (cell: TableCell) => boolean;
+export type NumberPredicate = (numbers: number[]) => boolean;
+export type HoverPredicate = (cell: TableCell) => boolean;
+export type BetPredicate = (value: number) => NumberPredicate;

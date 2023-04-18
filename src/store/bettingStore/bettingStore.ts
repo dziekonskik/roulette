@@ -10,7 +10,7 @@ export class BettingStore {
     { name: "corner", multiplier: 8, betTokens: [] },
     { name: "dozen", multiplier: 2, betTokens: [] },
     { name: "even/odd", multiplier: 1, betTokens: [] },
-    { name: "line", multiplier: 5, betTokens: [] },
+    { name: "six-line", multiplier: 5, betTokens: [] },
     { name: "low/high", multiplier: 1, betTokens: [] },
     { name: "red/black", multiplier: 1, betTokens: [] },
     { name: "straight up", multiplier: 35, betTokens: [] },

@@ -6,8 +6,9 @@
 
 @mixin mini-token-canvas {
   position: absolute;
-  width: 15px;
-  height: 15px;
+  pointer-events: none;
+  width: 17px;
+  height: 17px;
   padding: 0;
 }
 

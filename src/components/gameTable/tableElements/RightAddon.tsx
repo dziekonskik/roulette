@@ -1,7 +1,12 @@
 import { observer } from "mobx-react-lite";
 import { useStore } from "../../../store/rootStoreProvider";
+import {
+  firstColumn,
+  secondColumn,
+  thirdColumn,
+} from "../../../utils/betHelpers";
 import { highlightBy } from "../../../utils/hoverHelpers";
-import type { Predicate } from "../../../utils/types";
+import type { HoverPredicate } from "../../../utils/types";
 import { MiniTokenCanvas } from "../numbersGrid/MiniTokenCanvas";
 import styles from "./tableSection.module.scss";
 
@@ -16,12 +21,12 @@ export const RightAddon: React.FC = observer(() => {
     bettingStore: { placeBet },
   } = useStore();
 
-  const rowOne: Predicate = ({ value }) => value % 3 === 0;
-  const rowTwo: Predicate = ({ value }) => value % 3 === 2;
-  const rowThree: Predicate = ({ value }) => value % 3 === 1;
+  const rowOne: HoverPredicate = ({ value }) => value % 3 === 0;
+  const rowTwo: HoverPredicate = ({ value }) => value % 3 === 2;
+  const rowThree: HoverPredicate = ({ value }) => value % 3 === 1;
 
   const handleLineBet = () => {
-    placeBet("line", {
+    placeBet("column", {
       stakedFields: highlightedCells,
       tokenValue: selectedTokenValue,
       id: Math.random(),
@@ -36,11 +41,8 @@ export const RightAddon: React.FC = observer(() => {
         onClick={handleLineBet}
       >
         <span className={styles.textContent}>
-          <MiniTokenCanvas
-            betType="line"
-            predicate={(numbers) => numbers.every((n) => n % 3 === 0)}
-          />
-          1<small>st</small>
+          <MiniTokenCanvas betType="column" predicate={firstColumn} />1
+          <small>st</small>
         </span>
       </div>
       <div
@@ -49,11 +51,8 @@ export const RightAddon: React.FC = observer(() => {
         onClick={handleLineBet}
       >
         <span className={styles.textContent}>
-          <MiniTokenCanvas
-            betType="line"
-            predicate={(numbers) => numbers.every((n) => n % 3 === 2)}
-          />
-          2<small>nd</small>
+          <MiniTokenCanvas betType="column" predicate={secondColumn} />2
+          <small>nd</small>
         </span>
       </div>
       <div
@@ -62,11 +61,8 @@ export const RightAddon: React.FC = observer(() => {
         onClick={handleLineBet}
       >
         <span className={styles.textContent}>
-          <MiniTokenCanvas
-            betType="line"
-            predicate={(numbers) => numbers.every((n) => n % 3 === 1)}
-          />
-          3<small>rd</small>
+          <MiniTokenCanvas betType="column" predicate={thirdColumn} />3
+          <small>rd</small>
         </span>
       </div>
     </div>
