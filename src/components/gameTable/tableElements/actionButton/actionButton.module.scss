@@ -1,0 +1,66 @@
+@mixin action-buttons {
+  position: absolute;
+  background-color: var(--table-wood);
+  place-content: center;
+  text-transform: uppercase;
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+
+  &:hover {
+    img {
+      transform: rotate(-5deg);
+    }
+  }
+
+  &:active {
+    img {
+      transform: scale(1.02);
+    }
+  }
+
+  img {
+    width: 40px;
+    transition: transform 200ms linear;
+    filter: drop-shadow(0 1px 25px var(--color-grid-divider));
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    width: inherit;
+    height: inherit;
+    border: 5px solid transparent;
+    background: var(--button-gradient) border-box;
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+}
+
+.spin {
+  @include action-buttons;
+  left: 0;
+  bottom: 0;
+  padding: 39.5px 12px;
+  border-bottom-left-radius: 30px;
+  transform: translate(-1px, 1px);
+
+  &::before {
+    border-bottom-left-radius: 30px;
+    left: 1px;
+  }
+}
+.reset {
+  @include action-buttons;
+  right: 0;
+  bottom: 0;
+  padding: 39px 18px;
+  border-bottom-right-radius: 30px;
+
+  &::before {
+    border-bottom-right-radius: 30px;
+  }
+}
