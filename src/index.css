@@ -3,6 +3,16 @@
   --color-white: #f5f2f2;
   --color-highlight: rgba(185, 193, 190, 0.4);
   --standard-border: 2px solid var(--color-grid-divider);
+  --table-wood: #351102;
+  --table-green-light: #156577;
+  --table-green: #13414c;
+  --button-gradient: linear-gradient(
+    25deg,
+    #cdc09f,
+    rgb(212, 197, 118) 15%,
+    rgb(255, 191, 0) 45%,
+    rgb(153, 119, 40) 65%
+  );
 }
 
 /*

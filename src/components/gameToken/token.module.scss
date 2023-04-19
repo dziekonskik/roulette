@@ -8,7 +8,7 @@
   margin-right: 20px;
 
   &:hover {
-    transform: scale(1.07);
+    transform: scale(1.07) translate(10px, -20px); // offset for tokensWrapper
   }
 
   & > div:first-child {
@@ -41,6 +41,7 @@
   border-radius: 50%;
   z-index: 2;
   animation: orbit 4s linear infinite;
+  box-shadow: 1px 1px 10px var(--color-white);
 }
 
 @keyframes orbit {

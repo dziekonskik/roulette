@@ -1,7 +1,16 @@
 @mixin addon-common {
   border: var(--standard-border);
-  backdrop-filter: blur(5px);
   user-select: none;
+
+  &::after {
+    content: "";
+    background-color: rgb(153, 119, 40);
+    position: absolute;
+    bottom: 0px;
+    width: 25px;
+    height: 25px;
+    z-index: -1;
+  }
 }
 
 @mixin mini-token-canvas {
@@ -25,6 +34,11 @@
     border-top-left-radius: 30px;
     border-bottom-left-radius: 30px;
     transition: background-color 250ms;
+
+    &::after {
+      clip-path: polygon(47% 76%, 100% 94%, 100% 100%, 0% 100%, 0 84%, 0% 0%);
+      left: 0;
+    }
 
     &:hover {
       background-color: var(--color-highlight);
@@ -63,6 +77,11 @@
     display: grid;
     border-top-right-radius: 30px;
     border-bottom-right-radius: 30px;
+
+    &::after {
+      clip-path: polygon(100% 0, 100% 94%, 100% 100%, 0 100%, 60% 74%, 95% 0);
+      right: 0;
+    }
 
     div {
       padding: 20px;

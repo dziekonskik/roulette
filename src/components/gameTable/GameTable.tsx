@@ -11,11 +11,13 @@ import {
 } from "../../utils/betHelpers";
 import { highlightBy } from "../../utils/hoverHelpers";
 import type { HoverPredicate } from "../../utils/types";
+import { Token } from "../gameToken/Token";
 import styles from "./gameTable.module.scss";
 import { MiniTokenCanvas } from "./numbersGrid/MiniTokenCanvas";
 import { DozenBet } from "./tableElements/DozenBet";
 import { OtherBottomBets } from "./tableElements/OtherBottomBets";
 import { TableSection } from "./tableElements/TableSection";
+import { ActionButton } from "./tableElements/actionButton/ActionButton";
 
 export const GameTable: React.FC = observer(() => {
   const {
@@ -24,6 +26,7 @@ export const GameTable: React.FC = observer(() => {
       selectedTokenValue,
       highlightCells,
       unhighlightCells,
+      setSelectedToken,
     },
     bettingStore: { placeBet },
   } = useStore();
@@ -51,6 +54,18 @@ export const GameTable: React.FC = observer(() => {
           <TableSection startIndex={12} variant="middle" />
           <TableSection startIndex={24} variant="right" />
         </div>
+        <ActionButton action="spin" onClick={() => {}}>
+          <img
+            src="https://img.icons8.com/color/96/null/american-roulette.png"
+            alt="spin the wheel"
+          />
+        </ActionButton>
+        <ActionButton action="reset" onClick={() => {}}>
+          <img
+            src="https://img.icons8.com/fluency/94/null/delete-sign.png"
+            alt="clear the table"
+          />
+        </ActionButton>
         <footer>
           <div className={styles.groupBettings}>
             <DozenBet offset={0} />
@@ -116,6 +131,28 @@ export const GameTable: React.FC = observer(() => {
           </div>
         </footer>
       </div>
+      <article className={styles.tokensWrapper}>
+        <Token
+          value={10}
+          selected={selectedTokenValue === 10}
+          onClick={setSelectedToken}
+        />
+        <Token
+          value={50}
+          selected={selectedTokenValue === 50}
+          onClick={setSelectedToken}
+        />
+        <Token
+          value={100}
+          selected={selectedTokenValue === 100}
+          onClick={setSelectedToken}
+        />
+        <Token
+          value={500}
+          selected={selectedTokenValue === 500}
+          onClick={setSelectedToken}
+        />
+      </article>
     </section>
   );
 });

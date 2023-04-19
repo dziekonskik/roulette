@@ -7,10 +7,10 @@ export const Game: React.FC = () => {
   return (
     <>
       <div className={styles.overlay} />
-      <main className={styles.canvas}>
+      <main className={styles.gameBoard}>
         <SpinningWheel />
-        <SettingsPanel />
         <GameTable />
+        <SettingsPanel />
       </main>
     </>
   );

@@ -1,4 +1,4 @@
-.canvas {
+.gameBoard {
   position: absolute;
   overflow: hidden;
   perspective: 1000px;
@@ -6,22 +6,17 @@
     linear-gradient(to left, #00000080 0%, #ffffff00 40%),
     repeating-radial-gradient(
       240px 240px at -11.5vw 50vh,
-      #13414c 0%,
-      #156577 7%
+      var(--table-green) 0%,
+      var(--table-green-light) 7%
     );
-  min-height: 100vh;
+
   height: 100%;
   width: 100vw;
   display: grid;
-  grid-template-columns: 3fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  grid-template-areas:
-    "wheel settings"
-    "table table";
 
-  @media (min-width: 1450px) {
+  @media (min-width: 0px) {
     grid-template-columns: 1fr 2fr;
-    grid-template-rows: 1fr 2fr;
+    grid-template-rows: 1fr 3fr;
     grid-template-areas:
       "wheel settings"
       "wheel table";
@@ -44,8 +39,8 @@
 
   @media (min-width: 1450px) {
     background-image: radial-gradient(
-      circle at left,
-      rgba(255, 255, 255, 0.07) 30%,
+      circle at top right,
+      rgba(255, 255, 255, 0.07) 20%,
       rgba(0, 0, 0, 0.2) 50%
     );
   }
