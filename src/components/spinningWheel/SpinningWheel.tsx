@@ -1,37 +1,43 @@
 import {
-  FreeCamera,
+  ArcRotateCamera,
   HemisphericLight,
   Mesh,
-  MeshBuilder,
   Scene,
   Vector3,
 } from "@babylonjs/core";
 import { SceneComponent } from "./SceneComponent";
 import styles from "./spinningWheel.module.scss";
+import { createGround } from "./utils/createGround";
+import { createSkyBox } from "./utils/createSkyBox";
+import { createSpinningWheel } from "./utils/createSpinningWheel";
 
-let box: Mesh;
+let spinningWheel: Mesh;
 
 const onSceneReady = (scene: Scene) => {
-  const camera = new FreeCamera("camera1", new Vector3(0, 10, -10), scene);
+  const camera = new ArcRotateCamera(
+    "camera",
+    -Math.PI * 0.5,
+    Math.PI * 0.25,
+    12,
+    Vector3.Zero(),
+    scene
+  );
   camera.setTarget(Vector3.Zero());
   const canvas = scene.getEngine().getRenderingCanvas();
-  // camera.attachControl(canvas, true);
-  const light = new HemisphericLight("light", new Vector3(0, 1, 0), scene);
-  light.intensity = 0.7;
-  box = MeshBuilder.CreateBox("box", { size: 2 }, scene);
-  box.position.y = 1;
-  MeshBuilder.CreateGround("ground", { width: 6, height: 6 }, scene);
+  camera.attachControl(canvas, true);
+  new HemisphericLight("light", new Vector3(0, 1, 0), scene);
+  createSkyBox(scene);
+  createGround(scene);
+  spinningWheel = createSpinningWheel(scene);
 };
 
-/**
- * Will run on every frame render.  We are spinning the box on y-axis.
- */
 const onRender = (scene: Scene) => {
-  if (box !== undefined) {
+  if (spinningWheel !== undefined) {
     const deltaTimeInMillis = scene.getEngine().getDeltaTime();
 
     const rpm = 5;
-    box.rotation.y += (rpm / 60) * Math.PI * 2 * (deltaTimeInMillis / 1000);
+    spinningWheel.rotation.y +=
+      (rpm / 60) * Math.PI * 2 * (deltaTimeInMillis / 1000);
   }
 };
 
