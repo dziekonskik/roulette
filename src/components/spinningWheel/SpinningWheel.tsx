@@ -11,9 +11,12 @@ import { createGround } from "./utils/createGround";
 import { createSkyBox } from "./utils/createSkyBox";
 import { createSpinningWheel } from "./utils/createSpinningWheel";
 
-let spinningWheel: Mesh;
+let spinnigWall: Mesh;
+let spinningBase: Mesh;
 
 const onSceneReady = (scene: Scene) => {
+  scene.enablePhysics();
+
   const camera = new ArcRotateCamera(
     "camera",
     -Math.PI * 0.5,
@@ -26,17 +29,20 @@ const onSceneReady = (scene: Scene) => {
   const canvas = scene.getEngine().getRenderingCanvas();
   camera.attachControl(canvas, true);
   new HemisphericLight("light", new Vector3(0, 1, 0), scene);
+  // light.intensity = 0.7;
   createSkyBox(scene);
   createGround(scene);
-  spinningWheel = createSpinningWheel(scene);
+  const spinningWheel = createSpinningWheel(scene);
+  spinnigWall = spinningWheel.spinnigWall;
+  spinningBase = spinningWheel.spinningBase;
 };
 
 const onRender = (scene: Scene) => {
-  if (spinningWheel !== undefined) {
+  if (spinningBase !== undefined) {
     const deltaTimeInMillis = scene.getEngine().getDeltaTime();
 
-    const rpm = 5;
-    spinningWheel.rotation.y +=
+    const rpm = 2;
+    spinningBase.rotation.y +=
       (rpm / 60) * Math.PI * 2 * (deltaTimeInMillis / 1000);
   }
 };

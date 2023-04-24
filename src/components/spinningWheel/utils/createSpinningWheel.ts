@@ -5,13 +5,14 @@ import {
   Texture,
   Vector3,
 } from "@babylonjs/core";
+import { resultWheel } from "./wheelResult/resultWheel";
 
 export function createSpinningWheel(scene: Scene) {
   const wheelBox = MeshBuilder.CreateCylinder(
     "wheel",
     {
-      diameter: 4,
-      height: 1,
+      diameter: 5,
+      height: 0.5,
       tessellation: 100,
       cap: 0,
     },
@@ -20,19 +21,19 @@ export function createSpinningWheel(scene: Scene) {
   const wheelCap = MeshBuilder.CreateTorus(
     "wheel",
     {
-      diameter: 3.8,
+      diameter: 4.8,
       thickness: 0.2,
       tessellation: 100,
     },
     scene
   );
-  const innerWheel = MeshBuilder.CreateLathe(
-    "innerWheel",
+  const spinnigWall = MeshBuilder.CreateLathe(
+    "spinnigWall",
     {
       shape: [
-        new Vector3(1, 1, 1),
-        new Vector3(2, 2, 3),
-        new Vector3(1.2, 1, 1),
+        new Vector3(2, 1, 1),
+        new Vector3(2.5, 1.4, 2),
+        new Vector3(1.8, 1.1, 1),
       ],
     },
     scene
@@ -43,12 +44,14 @@ export function createSpinningWheel(scene: Scene) {
     "/brown-wooden-textured-flooring-background.jpg"
   );
   wheelMaterial2.diffuseTexture = new Texture("/weathered-wooden-surface.jpg");
-  innerWheel.position.y = -1;
-  wheelCap.position.y = 1;
-  wheelBox.position.y = 0.5;
+  spinnigWall.position.y = -1;
+  wheelCap.position.y = 0.5;
+  wheelBox.position.y = 0.3;
   wheelBox.material = wheelMaterial;
-  innerWheel.material = wheelMaterial2;
+  spinnigWall.material = wheelMaterial2;
   wheelCap.material = wheelMaterial;
 
-  return innerWheel;
+  const spinningBase = resultWheel(scene);
+
+  return { spinnigWall, spinningBase };
 }
