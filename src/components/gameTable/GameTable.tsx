@@ -28,7 +28,7 @@ export const GameTable: React.FC = observer(() => {
       unhighlightCells,
       setSelectedToken,
     },
-    bettingStore: { placeBet },
+    bettingStore: { placeBet, clearTable },
   } = useStore();
 
   const even: HoverPredicate = ({ value }) => value % 2 === 0;
@@ -60,7 +60,7 @@ export const GameTable: React.FC = observer(() => {
             alt="spin the wheel"
           />
         </ActionButton>
-        <ActionButton action="reset" onClick={() => {}}>
+        <ActionButton action="reset" onClick={clearTable}>
           <img
             src="https://img.icons8.com/fluency/94/null/delete-sign.png"
             alt="clear the table"

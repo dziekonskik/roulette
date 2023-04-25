@@ -1,4 +1,4 @@
-import { makeAutoObservable } from "mobx";
+import { autorun, makeAutoObservable } from "mobx";
 import { RootStore } from "../rootStore";
 import { CashInBets } from "./types";
 
@@ -20,6 +20,15 @@ export class BettingStore {
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
     makeAutoObservable(this);
+
+    autorun(() => {
+      const betsFromStorage = JSON.parse(
+        localStorage.getItem("bets") ?? ""
+      ) as CashInBets[];
+      if (betsFromStorage.length) {
+        this.bets = betsFromStorage;
+      }
+    });
   }
 
   public placeBet = (
@@ -36,6 +45,15 @@ export class BettingStore {
       }
       return bet;
     });
+    localStorage.setItem("bets", JSON.stringify(this.bets));
+  };
+
+  public clearTable = () => {
+    this.bets = this.bets.map((betObj) => ({
+      ...betObj,
+      betTokens: [],
+    }));
+    localStorage.setItem("bets", "");
   };
 
   get cashInBet() {
