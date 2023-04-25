@@ -6,6 +6,7 @@
   position: relative;
   transition: transform 250ms ease-out;
   margin-right: 20px;
+  user-select: none;
 
   &:hover {
     transform: scale(1.07) translate(10px, -20px); // offset for tokensWrapper

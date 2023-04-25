@@ -23,6 +23,7 @@
   -webkit-text-fill-color: transparent;
   position: relative;
   padding: 20px;
+  user-select: none;
 
   &:last-child {
     margin-right: 100px;
