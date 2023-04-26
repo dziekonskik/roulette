@@ -1077,10 +1077,17 @@
     "@babel/helper-validator-identifier" "^7.19.1"
     to-fast-properties "^2.0.0"
 
-"@babylonjs/core@^5.57.0":
-  version "5.57.0"
-  resolved "https://registry.yarnpkg.com/@babylonjs/core/-/core-5.57.0.tgz#6d9bf1b54a351c999c51829993dc31b5090492ed"
-  integrity sha512-ANkLkTj4UcdMlLYnxtnNYpjwyqV0OCOdqD2s7bUB0eFnM4IkNDTZHyo5tk0Rrycc0CeRF9Q8st82X6pGYmyZcQ==
+"@babylonjs/core@^6.18.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@babylonjs/core/-/core-6.0.0.tgz#a8628c4bf8f22c706b32f7fc0e3ef8c2600c39d0"
+  integrity sha512-lQ0cDwhVrWn9MSf91UsvLbWMpIFW0P1YxNSghUG3yTOaf2ZpKEl9AmTrbN+lMfxkrGdgQQB+Bgd3khc2kkMkrA==
+
+"@babylonjs/havok@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@babylonjs/havok/-/havok-1.0.0.tgz#6f36f0ac32719ec8ce4db022b2b319c5824b8038"
+  integrity sha512-vYDcsqPmCNSacNAhdU9SXU7zbI9NPbkxz/Xl7HqNmS3pB2UNhzpchTFWiOkmimdC/eq2ZfMDcSEVyiu10DkwWQ==
+  dependencies:
+    "@types/emscripten" "^1.39.6"
 
 "@bcoe/v8-coverage@^0.2.3":
   version "0.2.3"
@@ -1940,6 +1947,11 @@
   integrity sha512-cdeYyv4KWoEgpBISTxWvqYsVy444DOqehiF3fM3ne10AmJ62RSyNkUnxMJXHQWRQQX2eR94m5y1IZyDwBjV9FQ==
   dependencies:
     "@types/node" "*"
+
+"@types/emscripten@^1.39.6":
+  version "1.39.6"
+  resolved "https://registry.yarnpkg.com/@types/emscripten/-/emscripten-1.39.6.tgz#698b90fe60d44acf93c31064218fbea93fbfd85a"
+  integrity sha512-H90aoynNhhkQP6DRweEjJp5vfUVdIj7tdPLsu7pq89vODD/lcugKfZOsfgwpvM6XUewEp2N5dCg1Uf3Qe55Dcg==
 
 "@types/eslint-scope@^3.7.3":
   version "3.7.4"
