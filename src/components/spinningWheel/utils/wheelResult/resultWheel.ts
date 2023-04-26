@@ -1,4 +1,4 @@
-import { Mesh, MeshBuilder, Scene } from "@babylonjs/core";
+import { Color3, Mesh, MeshBuilder, Scene } from "@babylonjs/core";
 import { BETTING_BASE_RADIUS, wheelNumbers } from "../wheelConfig";
 import { decorationMaterial } from "./decorationMaterial";
 import { tower } from "./tower";
@@ -20,7 +20,7 @@ export function resultWheel(scene: Scene) {
     slices.push(slice);
   });
 
-  const decorMaterial = decorationMaterial(scene);
+  const decorMaterial = decorationMaterial(scene, new Color3(0.1, 0.1, 0.1));
 
   const innerRing = MeshBuilder.CreateTorus("innerRing", {
     diameter: BETTING_BASE_RADIUS * 1.5,

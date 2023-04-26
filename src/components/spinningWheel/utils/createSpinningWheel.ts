@@ -27,8 +27,8 @@ export function createSpinningWheel(scene: Scene) {
     },
     scene
   );
-  const spinnigWall = MeshBuilder.CreateLathe(
-    "spinnigWall",
+  const wall = MeshBuilder.CreateLathe(
+    "wall",
     {
       shape: [
         new Vector3(2, 1, 1),
@@ -44,14 +44,14 @@ export function createSpinningWheel(scene: Scene) {
     "/brown-wooden-textured-flooring-background.jpg"
   );
   wheelMaterial2.diffuseTexture = new Texture("/weathered-wooden-surface.jpg");
-  spinnigWall.position.y = -1;
+  wall.position.y = -1;
   wheelCap.position.y = 0.5;
   wheelBox.position.y = 0.3;
   wheelBox.material = wheelMaterial;
-  spinnigWall.material = wheelMaterial2;
+  wall.material = wheelMaterial2;
   wheelCap.material = wheelMaterial;
 
   const spinningBase = resultWheel(scene);
 
-  return { spinnigWall, spinningBase };
+  return { wall, spinningBase };
 }
