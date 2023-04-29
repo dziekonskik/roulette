@@ -1,73 +1,108 @@
 import {
-  ArcRotateCamera,
   DirectionalLight,
   HemisphericLight,
   Mesh,
   Scene,
   Vector3,
 } from "@babylonjs/core";
-import { HavokPlugin } from "@babylonjs/core/Physics";
+import {
+  HavokPlugin,
+  PhysicsAggregate,
+  PhysicsShapeType,
+} from "@babylonjs/core/Physics";
 import { observer } from "mobx-react-lite";
 import type { WheelState } from "../../store/gameStore/types";
 import { useStore } from "../../store/rootStoreProvider";
 import { SceneComponent } from "./SceneComponent";
 import styles from "./spinningWheel.module.scss";
-import { createBall } from "./utils/createBall";
 import { createGround } from "./utils/createGround";
 import { createSkyBox } from "./utils/createSkyBox";
-import { createSpinningWheel } from "./utils/createSpinningWheel";
 
 import HavokPhysics from "@babylonjs/havok";
+import { createBall } from "./utils/createBall";
+import { createSpinningWheelBox } from "./utils/createSpinningWheel";
+import { setupCamera } from "./utils/setupCamera";
+import { resultWheel } from "./utils/wheelResult/resultWheel";
 
-async function getInitializedHavok() {
-  return await HavokPhysics();
-}
+let spinningBase: PhysicsAggregate;
+let physicsBall: PhysicsAggregate;
+let rotatingBase: Mesh;
 
-let spinningBase: Mesh;
-let ball: Mesh;
-
-const onSceneReady = (scene: Scene) => {
-  scene.debugLayer.show();
+const onSceneReady = async (scene: Scene, wheelState: WheelState) => {
   new HemisphericLight("light1", new Vector3(0, 1, 0), scene);
   const light = new DirectionalLight("light", new Vector3(-1, -2, -2), scene);
   light.intensity = 0.3;
-  const camera = new ArcRotateCamera(
-    "camera",
-    -Math.PI * 0.5,
-    Math.PI * 0.25,
-    12,
-    Vector3.Zero(),
-    scene
-  );
+  const camera = setupCamera(scene);
+  camera.useAutoRotationBehavior = true;
   camera.setTarget(Vector3.Zero());
+  scene.activeCamera = camera;
   const canvas = scene.getEngine().getRenderingCanvas();
   camera.attachControl(canvas, true);
   createSkyBox(scene);
-  createGround(scene);
-  ball = createBall(scene);
-  ball.position.y = 0.7;
-  ball.position.x = 1;
-  const spinningWheel = createSpinningWheel(scene);
-  spinningBase = spinningWheel.spinningBase;
+  const ground = createGround(scene);
 
-  const havokInstance = getInitializedHavok();
+  const spinningWheelBox = createSpinningWheelBox(scene);
+  const numbersWWheel = resultWheel(scene);
+  const ball = createBall(scene);
+  ball.isVisible = false;
+  ball.position.y = 0.34;
+  ball.position.z = 2.1;
+
+  const havokInstance = await HavokPhysics();
   scene.enablePhysics(
     new Vector3(0, -9.81, 0),
     new HavokPlugin(true, havokInstance)
   );
+
+  new PhysicsAggregate(ground, PhysicsShapeType.BOX, { mass: 0 }, scene);
+  new PhysicsAggregate(
+    spinningWheelBox,
+    PhysicsShapeType.MESH,
+    { mass: 1000, restitution: 0.2, friction: 0.2 },
+    scene
+  );
+
+  if (wheelState === "idle") {
+    rotatingBase = numbersWWheel;
+  }
+
+  if (wheelState === "spinning") {
+    ball.isVisible = true;
+    camera.useAutoRotationBehavior = false;
+    camera.detachControl();
+    spinningBase = new PhysicsAggregate(
+      numbersWWheel,
+      PhysicsShapeType.CYLINDER,
+      { mass: 1, restitution: 0, friction: 1 },
+      scene
+    );
+    physicsBall = new PhysicsAggregate(
+      ball,
+      PhysicsShapeType.SPHERE,
+      { mass: 0.1, friction: 10 },
+      scene
+    );
+  }
 };
 
 const onRender = (scene: Scene, wheelState: WheelState) => {
-  if (spinningBase !== undefined) {
-    const deltaTimeInMillis = scene.getEngine().getDeltaTime();
+  const deltaTimeInMillis = scene.getEngine().getDeltaTime();
 
-    if (wheelState === "idle") {
-      const rpm = 2;
-      spinningBase.rotation.y +=
-        (rpm / 60) * Math.PI * 2 * (deltaTimeInMillis / 1000);
-    }
-    if (wheelState === "spinning") {
-    }
+  if (rotatingBase && wheelState === "idle") {
+    const rpm = 2;
+    rotatingBase.rotation.y +=
+      (rpm / 60) * Math.PI * 2 * (deltaTimeInMillis / 1000);
+  }
+  if (spinningBase?.body && wheelState === "spinning") {
+    spinningBase.body.applyForce(
+      new Vector3(0.6, 0, -0.6),
+      new Vector3(5, 0, 5)
+    );
+
+    physicsBall.body.applyImpulse(
+      new Vector3(-0.2, 0, 0.03),
+      new Vector3(0, 0, 0)
+    );
   }
 };
 
@@ -79,7 +114,7 @@ export const SpinningWheel = observer(() => {
     <div className={styles.spinningWheelcontainer}>
       <SceneComponent
         antialias
-        onSceneReady={onSceneReady}
+        onSceneReady={(scene) => onSceneReady(scene, wheelState)}
         onRender={(scene) => onRender(scene, wheelState)}
         id="my-canvas"
         className={styles.canvas}

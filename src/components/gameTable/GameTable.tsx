@@ -29,6 +29,7 @@ export const GameTable: React.FC = observer(() => {
       setSelectedToken,
     },
     bettingStore: { placeBet, clearTable },
+    gameStore: { spinRoulette },
   } = useStore();
 
   const even: HoverPredicate = ({ value }) => value % 2 === 0;
@@ -54,7 +55,7 @@ export const GameTable: React.FC = observer(() => {
           <TableSection startIndex={12} variant="middle" />
           <TableSection startIndex={24} variant="right" />
         </div>
-        <ActionButton action="spin" onClick={() => {}}>
+        <ActionButton action="spin" onClick={spinRoulette}>
           <img
             src="https://img.icons8.com/color/96/null/american-roulette.png"
             alt="spin the wheel"

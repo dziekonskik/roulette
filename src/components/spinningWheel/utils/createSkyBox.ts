@@ -7,5 +7,5 @@ export function createSkyBox(scene: Scene) {
   skyMaterial.backFaceCulling = false;
   const skyBox = MeshBuilder.CreateBox("skyBox", { size: 1000.0 }, scene);
   skyBox.material = skyMaterial;
-  skyBox.position.z = -300;
+  skyBox.position.z = -400;
 }
