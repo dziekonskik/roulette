@@ -1077,10 +1077,10 @@
     "@babel/helper-validator-identifier" "^7.19.1"
     to-fast-properties "^2.0.0"
 
-"@babylonjs/core@^6.18.0":
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/@babylonjs/core/-/core-6.0.0.tgz#a8628c4bf8f22c706b32f7fc0e3ef8c2600c39d0"
-  integrity sha512-lQ0cDwhVrWn9MSf91UsvLbWMpIFW0P1YxNSghUG3yTOaf2ZpKEl9AmTrbN+lMfxkrGdgQQB+Bgd3khc2kkMkrA==
+"@babylonjs/core@^6.1.0":
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/@babylonjs/core/-/core-6.1.0.tgz#ca36fe3b480046cef0cde5156a0a416fe449de65"
+  integrity sha512-/RfJU9B0bidGpZrxRWoHx+bHxeX07ICXTcVHwe7fFRk/uaBw3ZW8PzYqW30bN4s6oT+oxXzsj/jFAxE/zO+S9Q==
 
 "@babylonjs/havok@^1.0.0":
   version "1.0.0"

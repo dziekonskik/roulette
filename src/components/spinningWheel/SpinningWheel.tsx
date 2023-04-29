@@ -100,7 +100,7 @@ const onRender = (scene: Scene, wheelState: WheelState) => {
     );
 
     physicsBall.body.applyImpulse(
-      new Vector3(-0.2, 0, 0.03),
+      new Vector3(-0.1, 0, 0.03),
       new Vector3(0, 0, 0)
     );
   }
