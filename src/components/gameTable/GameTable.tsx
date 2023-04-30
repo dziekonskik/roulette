@@ -49,7 +49,7 @@ export const GameTable: React.FC = observer(() => {
 
   return (
     <section className={styles.tableContainer}>
-      <div>
+      <div className={styles.mainWrapper}>
         <div className={styles.gameTable}>
           <TableSection startIndex={0} variant="left" />
           <TableSection startIndex={12} variant="middle" />
@@ -67,7 +67,7 @@ export const GameTable: React.FC = observer(() => {
             alt="clear the table"
           />
         </ActionButton>
-        <footer>
+        <footer className={styles.groupBettingsWrapper}>
           <div className={styles.groupBettings}>
             <DozenBet offset={0} />
             <OtherBottomBets>

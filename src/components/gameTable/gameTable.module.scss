@@ -1,3 +1,9 @@
+@import url("./tableElements/actionButton/actionButton.module.scss");
+@import url("../settingsPanel/settingsPanel.module.scss");
+@import url("../spinningWheel/spinningWheel.module.scss");
+@import url("../gameTable/tableElements/bottomAddons.module.scss");
+@import url("../gameTable/tableElements/tableSection.module.scss");
+
 .tableContainer {
   grid-area: table;
   transform: rotateX(20deg) translateX(-20px) translateY(-10px) translateZ(50px);
@@ -6,64 +12,62 @@
     transform: rotateX(20deg) translateY(50px) translateZ(130px)
       translateX(-50px);
   }
+}
 
-  & > div {
-    max-width: fit-content;
-    margin: 0 auto;
-    outline: 50px solid var(--table-wood);
-    outline-offset: 0px;
-    box-shadow: 0 10px 100px black;
+.gameTable {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.mainWrapper {
+  max-width: fit-content;
+  margin: 0 auto;
+  outline: 50px solid var(--table-wood);
+  outline-offset: 0px;
+  box-shadow: 0 10px 100px black;
+  border-radius: 25px;
+  backdrop-filter: blur(5px);
+  z-index: 30;
+
+  &::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
     border-radius: 25px;
-    backdrop-filter: blur(5px);
-    z-index: 30;
+    box-shadow: 0 1px 10px var(--color-grid-divider),
+      0 2px 20px var(--color-grid-divider), 0 3px 30px var(--color-grid-divider),
+      0 4px 40px var(--color-grid-divider), 0 5px 50px var(--color-grid-divider);
+    opacity: 0.15;
+  }
+}
 
-    &::before {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      border-radius: 25px;
-      box-shadow: 0 1px 10px var(--color-grid-divider),
-        0 2px 20px var(--color-grid-divider),
-        0 3px 30px var(--color-grid-divider),
-        0 4px 40px var(--color-grid-divider),
-        0 5px 50px var(--color-grid-divider);
-      opacity: 0.15;
-    }
+.groupBettingsWrapper {
+  display: flex;
+  padding-left: 63px;
+  padding-right: 76px;
+  width: 100%;
+}
 
-    footer {
-      display: flex;
-      padding-left: 63px;
-      padding-right: 76px;
-      width: 100%;
+.groupBettings {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  width: 100%;
+  border: var(--standard-border);
+  border-top: none;
 
-      .groupBettings {
-        display: grid;
-        grid-template-rows: 1fr 1fr;
-        width: 100%;
-        border: var(--standard-border);
-        border-top: none;
-
-        &:first-child {
-          width: calc(100% - 20px);
-        }
-
-        &:last-child {
-          width: calc(100% + 10px);
-        }
-
-        &:not(:first-child) {
-          border-left: none;
-        }
-      }
-    }
+  &:first-child {
+    width: calc(100% - 20px);
   }
 
-  .gameTable {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
+  &:last-child {
+    width: calc(100% + 10px);
+  }
+
+  &:not(:first-child) {
+    border-left: none;
   }
 }
 
