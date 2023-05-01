@@ -36,6 +36,8 @@ export class BettingStore {
     betDetails: CashInBets["betTokens"][number]
   ) => {
     if (this.rootStore.gameStore.balance - betDetails.tokenValue < 0) return;
+    if (this.rootStore.wheelStore.wheelStatus !== "idle") return;
+
     this.bets = this.bets.map((bet) => {
       if (bet.name === name) {
         return {
@@ -54,6 +56,9 @@ export class BettingStore {
       betTokens: [],
     }));
     localStorage.setItem("bets", "");
+    if (this.rootStore.wheelStore.wheelStatus === "spinning") {
+      this.rootStore.wheelStore.resetWheelState();
+    }
   };
 
   get cashInBet() {

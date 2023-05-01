@@ -17,12 +17,8 @@ export class GameStore implements RouletteStoreInterface {
   private initialize = (): GameDetials => {
     return {
       player: { balance: 10000, win: 0 },
-      roulette: { result: null, state: "idle" },
+      roulette: { result: null },
     };
-  };
-
-  public spinRoulette = () => {
-    this.gameState.roulette.state = "spinning";
   };
 
   get balance() {
@@ -33,10 +29,6 @@ export class GameStore implements RouletteStoreInterface {
 
   get lastWin() {
     return 0;
-  }
-
-  get wheelState() {
-    return this.gameState.roulette.state;
   }
 
   calculateWinnings = () => {

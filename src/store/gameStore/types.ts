@@ -10,8 +10,6 @@ export type BetType =
   | "red/black"
   | "low/high";
 
-export type WheelState = "idle" | "spinning" | "stopped";
-
 export type Player = {
   balance: number;
   win: number;
@@ -19,7 +17,6 @@ export type Player = {
 
 export type GameState = {
   result: number | null;
-  state: WheelState;
 };
 
 export type GameDetials = {
@@ -28,6 +25,5 @@ export type GameDetials = {
 };
 
 export interface RouletteStoreInterface {
-  spinRoulette: () => void;
   calculateWinnings: () => void;
 }
