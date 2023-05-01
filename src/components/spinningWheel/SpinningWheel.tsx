@@ -7,6 +7,7 @@ import {
 } from "@babylonjs/core";
 import {
   HavokPlugin,
+  IPhysicsCollisionEvent,
   PhysicsAggregate,
   PhysicsShapeType,
 } from "@babylonjs/core/Physics";
@@ -28,6 +29,7 @@ import { resultWheel } from "./utils/wheelResult/resultWheel";
 
 let spinningBase: PhysicsAggregate;
 let rotatingBase: Mesh;
+let physicsBall: PhysicsAggregate;
 
 const onSceneReady = async (scene: Scene, wheelState: WheelState) => {
   new HemisphericLight("light1", new Vector3(0, 1, 0), scene);
@@ -50,10 +52,18 @@ const onSceneReady = async (scene: Scene, wheelState: WheelState) => {
   ball.position.z = -1;
 
   const havokInstance = await HavokPhysics();
-  scene.enablePhysics(
-    new Vector3(0, -9.81, 0),
-    new HavokPlugin(true, havokInstance)
-  );
+  const havok = new HavokPlugin(true, havokInstance);
+  scene.enablePhysics(new Vector3(0, -9.81, 0), havok);
+  const collideCB = (collision: IPhysicsCollisionEvent) => {
+    // console.log(
+    //   scene.getMeshByUniqueId(collision.collidedAgainst.transformNode.uniqueId)
+    // );
+
+    console.log(collision.collider);
+    console.log(collision.collidedAgainst);
+  };
+
+  havok.onCollisionObservable.add(collideCB);
 
   new PhysicsAggregate(ground, PhysicsShapeType.BOX, { mass: 0 }, scene);
   new PhysicsAggregate(
@@ -76,15 +86,19 @@ const onSceneReady = async (scene: Scene, wheelState: WheelState) => {
       { mass: 1, restitution: 0.1, friction: 1 },
       scene
     );
+    spinningBase.body.setCollisionCallbackEnabled(true);
+    // spinningBase.body.getCollisionObservable().add(collideCB);
 
     const ballTimeout = window.setTimeout(() => {
       ball.isVisible = true;
-      const physicsBall = new PhysicsAggregate(
+      physicsBall = new PhysicsAggregate(
         ball,
         PhysicsShapeType.SPHERE,
         { mass: 0.3, friction: 4 },
         scene
       );
+      physicsBall.body.setCollisionCallbackEnabled(true);
+      // physicsBall.body.getCollisionObservable().add(collideCB);
       physicsBall.body.applyImpulse(new Vector3(2, 0, 0), new Vector3(0, 1, 0));
       clearTimeout(ballTimeout);
     }, 3000);
@@ -98,6 +112,7 @@ const onRender = (
   stopTime: number
 ) => {
   const deltaTimeInMillis = scene.getEngine().getDeltaTime();
+  const positionVector = Vector3.Zero();
 
   if (rotatingBase && wheelState === "idle") {
     const rpm = 2;
@@ -115,14 +130,19 @@ const onRender = (
       }
     }, stopTime);
 
-    if (appliedForce.current.x < 0) {
+    if (appliedForce.current.x < 0 && physicsBall?.body) {
+      physicsBall.body.getLinearVelocityToRef(positionVector);
+      if (positionVector.hasAZeroComponent) {
+        //here the ball has stopped, but the colision callback is in the onSceneReady
+        // console.log(physicsBall.transformNode.getAbsolutePosition());
+      }
       clearTimeout(spinningBaseTimeout);
     }
   }
 };
 
 export const SpinningWheel = observer(() => {
-  const appliedForce = useRef<Vector3>(new Vector3(1, 0, -1));
+  const appliedForce = useRef<Vector3>(new Vector3(1.5, 0, -1.5));
   const randomStopTime = randomNumber(3500, 5500);
   const {
     wheelStore: { wheelStatus },
