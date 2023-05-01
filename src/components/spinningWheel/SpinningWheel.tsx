@@ -11,21 +11,22 @@ import {
   PhysicsShapeType,
 } from "@babylonjs/core/Physics";
 import { observer } from "mobx-react-lite";
-import type { WheelState } from "../../store/gameStore/types";
 import { useStore } from "../../store/rootStoreProvider";
+import type { WheelState } from "../../store/wheelStore/types";
 import { SceneComponent } from "./SceneComponent";
 import styles from "./spinningWheel.module.scss";
 import { createGround } from "./utils/createGround";
 import { createSkyBox } from "./utils/createSkyBox";
 
 import HavokPhysics from "@babylonjs/havok";
+import { useRef } from "react";
+import { randomNumber } from "../../utils/functions";
 import { createBall } from "./utils/createBall";
 import { createSpinningWheelBox } from "./utils/createSpinningWheel";
 import { setupCamera } from "./utils/setupCamera";
 import { resultWheel } from "./utils/wheelResult/resultWheel";
 
 let spinningBase: PhysicsAggregate;
-let physicsBall: PhysicsAggregate;
 let rotatingBase: Mesh;
 
 const onSceneReady = async (scene: Scene, wheelState: WheelState) => {
@@ -45,8 +46,8 @@ const onSceneReady = async (scene: Scene, wheelState: WheelState) => {
   const numbersWWheel = resultWheel(scene);
   const ball = createBall(scene);
   ball.isVisible = false;
-  ball.position.y = 0.34;
-  ball.position.z = 2.1;
+  ball.position.y = 0.5;
+  ball.position.z = -1;
 
   const havokInstance = await HavokPhysics();
   scene.enablePhysics(
@@ -67,25 +68,35 @@ const onSceneReady = async (scene: Scene, wheelState: WheelState) => {
   }
 
   if (wheelState === "spinning") {
-    ball.isVisible = true;
     camera.useAutoRotationBehavior = false;
     camera.detachControl();
     spinningBase = new PhysicsAggregate(
       numbersWWheel,
       PhysicsShapeType.CYLINDER,
-      { mass: 1, restitution: 0, friction: 1 },
+      { mass: 1, restitution: 0.1, friction: 1 },
       scene
     );
-    physicsBall = new PhysicsAggregate(
-      ball,
-      PhysicsShapeType.SPHERE,
-      { mass: 0.1, friction: 10 },
-      scene
-    );
+
+    const ballTimeout = window.setTimeout(() => {
+      ball.isVisible = true;
+      const physicsBall = new PhysicsAggregate(
+        ball,
+        PhysicsShapeType.SPHERE,
+        { mass: 0.3, friction: 4 },
+        scene
+      );
+      physicsBall.body.applyImpulse(new Vector3(2, 0, 0), new Vector3(0, 1, 0));
+      clearTimeout(ballTimeout);
+    }, 3000);
   }
 };
 
-const onRender = (scene: Scene, wheelState: WheelState) => {
+const onRender = (
+  scene: Scene,
+  wheelState: WheelState,
+  appliedForce: React.MutableRefObject<Vector3>,
+  stopTime: number
+) => {
   const deltaTimeInMillis = scene.getEngine().getDeltaTime();
 
   if (rotatingBase && wheelState === "idle") {
@@ -94,28 +105,36 @@ const onRender = (scene: Scene, wheelState: WheelState) => {
       (rpm / 60) * Math.PI * 2 * (deltaTimeInMillis / 1000);
   }
   if (spinningBase?.body && wheelState === "spinning") {
-    spinningBase.body.applyForce(
-      new Vector3(0.6, 0, -0.6),
-      new Vector3(5, 0, 5)
-    );
+    spinningBase.body.applyForce(appliedForce.current, new Vector3(6, 0, 6));
 
-    physicsBall.body.applyImpulse(
-      new Vector3(-0.1, 0, 0.03),
-      new Vector3(0, 0, 0)
-    );
+    const spinningBaseTimeout = setTimeout(() => {
+      if (spinningBase.material.friction && appliedForce.current.x > 0) {
+        spinningBase.material.friction += 0.1;
+        appliedForce.current.x -= 0.04;
+        appliedForce.current.z += 0.04;
+      }
+    }, stopTime);
+
+    if (appliedForce.current.x < 0) {
+      clearTimeout(spinningBaseTimeout);
+    }
   }
 };
 
 export const SpinningWheel = observer(() => {
+  const appliedForce = useRef<Vector3>(new Vector3(1, 0, -1));
+  const randomStopTime = randomNumber(3500, 5500);
   const {
-    gameStore: { wheelState },
+    wheelStore: { wheelStatus },
   } = useStore();
   return (
     <div className={styles.spinningWheelcontainer}>
       <SceneComponent
         antialias
-        onSceneReady={(scene) => onSceneReady(scene, wheelState)}
-        onRender={(scene) => onRender(scene, wheelState)}
+        onSceneReady={(scene) => onSceneReady(scene, wheelStatus)}
+        onRender={(scene) =>
+          onRender(scene, wheelStatus, appliedForce, randomStopTime)
+        }
         id="my-canvas"
         className={styles.canvas}
       />

@@ -29,7 +29,7 @@ export const GameTable: React.FC = observer(() => {
       setSelectedToken,
     },
     bettingStore: { placeBet, clearTable },
-    gameStore: { spinRoulette },
+    wheelStore: { spinTheWheel: spinRoulette },
   } = useStore();
 
   const even: HoverPredicate = ({ value }) => value % 2 === 0;
