@@ -43,7 +43,7 @@ export function resultWheel(scene: Scene) {
   towerMesh.rotation.z = -Math.PI / 2;
   towerMesh.position.y = 1;
 
-  return Mesh.MergeMeshes(
+  const mergedMesh = Mesh.MergeMeshes(
     [bettingBase, innerRing, outerRing, ...slices],
     true,
     false,
@@ -51,4 +51,10 @@ export function resultWheel(scene: Scene) {
     false,
     true
   ) as Mesh;
+
+  slices.forEach((slice) => {
+    slice.setParent(mergedMesh);
+  });
+
+  return mergedMesh;
 }

@@ -7,7 +7,6 @@ import {
 } from "@babylonjs/core";
 import {
   HavokPlugin,
-  IPhysicsCollisionEvent,
   PhysicsAggregate,
   PhysicsShapeType,
 } from "@babylonjs/core/Physics";
@@ -25,6 +24,7 @@ import { randomNumber } from "../../utils/functions";
 import { createBall } from "./utils/createBall";
 import { createSpinningWheelBox } from "./utils/createSpinningWheel";
 import { setupCamera } from "./utils/setupCamera";
+import { wheelNumbers } from "./utils/wheelConfig";
 import { resultWheel } from "./utils/wheelResult/resultWheel";
 
 let spinningBase: PhysicsAggregate;
@@ -45,7 +45,7 @@ const onSceneReady = async (scene: Scene, wheelState: WheelState) => {
   const ground = createGround(scene);
 
   const spinningWheelBox = createSpinningWheelBox(scene);
-  const numbersWWheel = resultWheel(scene);
+  const numbersWheel = resultWheel(scene);
   const ball = createBall(scene);
   ball.isVisible = false;
   ball.position.y = 0.5;
@@ -54,16 +54,6 @@ const onSceneReady = async (scene: Scene, wheelState: WheelState) => {
   const havokInstance = await HavokPhysics();
   const havok = new HavokPlugin(true, havokInstance);
   scene.enablePhysics(new Vector3(0, -9.81, 0), havok);
-  const collideCB = (collision: IPhysicsCollisionEvent) => {
-    // console.log(
-    //   scene.getMeshByUniqueId(collision.collidedAgainst.transformNode.uniqueId)
-    // );
-
-    console.log(collision.collider);
-    console.log(collision.collidedAgainst);
-  };
-
-  havok.onCollisionObservable.add(collideCB);
 
   new PhysicsAggregate(ground, PhysicsShapeType.BOX, { mass: 0 }, scene);
   new PhysicsAggregate(
@@ -74,20 +64,18 @@ const onSceneReady = async (scene: Scene, wheelState: WheelState) => {
   );
 
   if (wheelState === "idle") {
-    rotatingBase = numbersWWheel;
+    rotatingBase = numbersWheel;
   }
 
   if (wheelState === "spinning") {
     camera.useAutoRotationBehavior = false;
     camera.detachControl();
     spinningBase = new PhysicsAggregate(
-      numbersWWheel,
+      numbersWheel,
       PhysicsShapeType.CYLINDER,
       { mass: 1, restitution: 0.1, friction: 1 },
       scene
     );
-    spinningBase.body.setCollisionCallbackEnabled(true);
-    // spinningBase.body.getCollisionObservable().add(collideCB);
 
     const ballTimeout = window.setTimeout(() => {
       ball.isVisible = true;
@@ -97,8 +85,7 @@ const onSceneReady = async (scene: Scene, wheelState: WheelState) => {
         { mass: 0.3, friction: 4 },
         scene
       );
-      physicsBall.body.setCollisionCallbackEnabled(true);
-      // physicsBall.body.getCollisionObservable().add(collideCB);
+
       physicsBall.body.applyImpulse(new Vector3(2, 0, 0), new Vector3(0, 1, 0));
       clearTimeout(ballTimeout);
     }, 3000);
@@ -133,8 +120,17 @@ const onRender = (
     if (appliedForce.current.x < 0 && physicsBall?.body) {
       physicsBall.body.getLinearVelocityToRef(positionVector);
       if (positionVector.hasAZeroComponent) {
-        //here the ball has stopped, but the colision callback is in the onSceneReady
-        // console.log(physicsBall.transformNode.getAbsolutePosition());
+        const beta = (2 * Math.PI) / wheelNumbers.length;
+        const ballPosition = physicsBall.transformNode
+          .getAbsolutePosition()
+          .subtract(spinningBase.transformNode.getAbsolutePosition());
+        const alphaM = Math.atan2(ballPosition.z, ballPosition.x);
+
+        spinningBase.transformNode.getChildMeshes().forEach((slice, index) => {
+          if (Math.floor(alphaM / beta) === index) {
+            console.log(index);
+          }
+        });
       }
       clearTimeout(spinningBaseTimeout);
     }
@@ -142,7 +138,7 @@ const onRender = (
 };
 
 export const SpinningWheel = observer(() => {
-  const appliedForce = useRef<Vector3>(new Vector3(1.5, 0, -1.5));
+  const appliedForce = useRef<Vector3>(new Vector3(1.2, 0, -1.2));
   const randomStopTime = randomNumber(3500, 5500);
   const {
     wheelStore: { wheelStatus },
@@ -161,3 +157,21 @@ export const SpinningWheel = observer(() => {
     </div>
   );
 });
+
+// if (positionVector.hasAZeroComponent) {
+//   const beta = Math.PI / wheelNumbers.length;
+//   const ballPosition = physicsBall.transformNode
+//     .getAbsolutePosition()
+//     .subtract(spinningBase.transformNode.getAbsolutePosition());
+//   const alphaM = Math.atan2(ballPosition.y, ballPosition.x);
+
+//   spinningBase.transformNode.getChildMeshes().forEach((slice, index) => {
+//     const alpha = index * 2 * beta + beta;
+//     if (alphaM > alpha - beta && alphaM < alpha + beta) {
+//       console.log({
+//         name: slice.name,
+//         index,
+//       });
+//     }
+//   });
+// }
